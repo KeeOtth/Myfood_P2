@@ -1,8 +1,8 @@
 package br.ufal.ic.p2.myfood;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
-import br.ufal.ic.p2.myfood.models.PersistenciaUsuarioEmMemoria;
-import br.ufal.ic.p2.myfood.models.Usuario;
+import br.ufal.ic.p2.myfood.models.*;
+import br.ufal.ic.p2.myfood.exceptions.*;
 
 public class Facade {
     public void zerarSistema() {
@@ -11,37 +11,50 @@ public class Facade {
 
     public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuarioEmMemoria();
 
-    public String getAtributoUsuario(String login, String atributo) throws Exception {
-        Usuario user = persistenciaUsuario.buscarUsuario(login);
-        if (user != null && atributo.equals("nome")) {
-            return user.getNome();
-        } else if (user != null && atributo.equals("senha")) {
-            return user.getSenha();
+    public void criarUsuario(String nome, String email, String senha, String endereco)
+            throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException{
+
+        for (Usuario user : persistenciaUsuario.listar()) {
+            if (user.getEmail().equals(email)){
+                throw new ExistingEmailException();
+            }
         }
-        throw new Exception("Usuário não cadastrado.");
-    }
-
-    public void criarUsuario(String login, String senha, String nome) throws Exception {
-        Usuario novo_usuario = new Usuario(login, senha, nome);
-        persistenciaUsuario.salvarUsuario(novo_usuario);
-    }
-
-    public int abrirSessao(String login, String senha) throws Exception {
-        Usuario user = persistenciaUsuario.buscarUsuario(login);
-
-        if (user == null || !user.getSenha().equals(senha)) {
-            throw new Exception("Login ou senha inválidos.");
+        if (email == null || !(email.contains("@"))){
+            throw new InvalidEmailException();
+        }
+        if (nome == null || nome.isEmpty()) {
+            throw new InvalidNameException();
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new InvalidAddressException();
         }
 
-        return 1;
+        Cliente cliente = new Cliente(nome, email, senha, endereco);
+        persistenciaUsuario.salvar(cliente);
     }
 
-    public void encerrarSistema() {
+    public void criarUsuario(String nome, String email, String senha, String endereco, String cpf)
+            throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException, InvalidCpfException{
 
-    }
-
-    public void editarPerfil(int id, String atributo, String valor) throws Exception {
-
+        for (Usuario user : persistenciaUsuario.listar()) {
+            if (user.getEmail().equals(email)){
+                throw new ExistingEmailException();
+            }
+        }
+        if (cpf == null || cpf.length()!= 14){
+            throw new InvalidEmailException();
+        }
+        if (email == null || !(email.contains("@"))){
+            throw new InvalidEmailException();
+        }
+        if (nome == null || nome.isEmpty()) {
+            throw new InvalidNameException();
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new InvalidAddressException();
+        }
+        Dono dono = new Dono(nome, email, senha, endereco, cpf);
+        persistenciaUsuario.salvar(dono);
     }
     //Aprender a usar o try/catch para lidar com exceções.
 }

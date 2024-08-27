@@ -3,13 +3,13 @@ package br.ufal.ic.p2.myfood.interfaces;
 import java.util.List;
 
 public interface Persistencia<T> {
-    void salvarUsuario(T modelo) throws Exception ;
+    void salvar(T modelo);
 
-    void removerUsuario(String id) throws Exception ;
+    void remover(int id) throws Exception ;
 
-    void editarUsuario(String id, T novo_modelo) throws Exception ;
+    void editar(String id, T novo_modelo) throws Exception ;
 
-    T buscarUsuario(String id) throws Exception ;
+    T buscar(int id) throws Exception ;
 
-    List<T> listarUsuarios();
+    List<T> listar();
 }

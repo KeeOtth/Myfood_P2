@@ -2,53 +2,50 @@ package br.ufal.ic.p2.myfood.models;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import br.ufal.ic.p2.myfood.exceptions.*;
 
-public class PersistenciaUsuarioEmMemoria implements Persistencia<Usuario> {
+public class PersistenciaUsuarioEmMemoria implements Persistencia<Usuario>{
 
-    private Map<String , Usuario> user_list = new HashMap<>();
+    private List<Usuario> user_list = new ArrayList<>();
 
     @Override
-    public void salvarUsuario(Usuario usuario) throws Exception {
-        if (user_list.containsKey(usuario.getLogin())) {
-            throw new Exception("Conta com esse nome já existe.");
-        } else if (usuario.getLogin() == null) {
-            throw new Exception("Login inválido.");
-        } else if (usuario.getSenha() == null) {
-            throw new Exception("Senha inválida.");
-        } else {
-            user_list.put(usuario.getLogin(), usuario);
+    public void salvar(Usuario user){
+        user_list.add(user);
+    }
+
+    @Override
+    public void remover(int id) throws Exception {
+        user_list.removeIf(user -> user.getId() == id);
+    }
+
+    @Override
+    public void editar(String id, Usuario novo_modelo) throws Exception {
+        throw new Exception("ainda n fiz fodase");
+    }
+
+    @Override
+    public Usuario buscar(int id) throws Exception {
+        for (Usuario user : user_list) {
+            if(user.getId() == id) {
+                return user;
+            }
         }
+        return null;
     }
 
-    @Override
-    public void removerUsuario(String login) throws Exception {
-        throw new Exception("Não implementada ainda (fodase)");
-    }
-
-    @Override
-    public void editarUsuario(String login, Usuario updatedUser) throws Exception {
-        if (!user_list.containsKey(login)){
-            throw new Exception("Login não existe");
+    public Usuario buscarEmail(String email) throws Exception {
+        for (Usuario user : user_list) {
+            if(user.getEmail().equals(email)) {
+                return user;
+            }
         }
-
-        Usuario usuario = user_list.get(login);
-        Map<String, String> aux = usuario.getAtributos();
-
-        aux.putAll(updatedUser.getAtributos());
-
-        usuario.setAtributos(aux);
+        return null;
     }
 
     @Override
-    public Usuario buscarUsuario(String login) {
-        return user_list.getOrDefault(login, null);
-    }
-
-    @Override
-    public List<Usuario> listarUsuarios() {
-        return List.of();
+    public List<Usuario> listar() {
+        return user_list;
     }
 }

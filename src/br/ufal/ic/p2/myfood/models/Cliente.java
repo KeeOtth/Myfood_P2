@@ -5,8 +5,7 @@ public class Cliente extends Usuario {
     private String endereco;
 
     public Cliente(String nome, String email, String senha, String endereco) {
-        super(nome, email, senha);
-        this.endereco = endereco;
+        super(nome, email, senha, endereco);
     }
 
     public String getEndereco() {
@@ -15,5 +14,10 @@ public class Cliente extends Usuario {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    @Override
+    public String getAtributo(String atributo) {
+        return super.getAtributo(atributo); //Faz sentido existir isso aqui? não sei.
     }
 }
