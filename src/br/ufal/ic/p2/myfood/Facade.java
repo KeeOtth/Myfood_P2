@@ -4,6 +4,8 @@ import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.*;
 import br.ufal.ic.p2.myfood.exceptions.*;
 
+import java.util.List;
+
 public class Facade {
     public void zerarSistema() {
 
@@ -31,6 +33,10 @@ public class Facade {
 
         Cliente cliente = new Cliente(nome, email, senha, endereco);
         persistenciaUsuario.salvar(cliente);
+        List<Usuario> temp = persistenciaUsuario.listar();
+        for (Usuario user : temp) {
+            System.out.println(user);
+        }
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf)
@@ -55,6 +61,11 @@ public class Facade {
         }
         Dono dono = new Dono(nome, email, senha, endereco, cpf);
         persistenciaUsuario.salvar(dono);
+
+        List<Usuario> temp = persistenciaUsuario.listar();
+        for (Usuario user : temp) {
+            System.out.println(user);
+        }
     }
     //Aprender a usar o try/catch para lidar com exceções.
 }

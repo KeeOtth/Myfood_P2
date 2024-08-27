@@ -10,13 +10,15 @@ public class Usuario implements Serializable{
     private String senha;
     private String endereco;
 
-
     public Usuario(String nome, String email, String senha, String endereco){
         this.id = gerarIdUnico();
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.endereco = endereco;
+    }
+
+    public Usuario() {
     }
 
     private synchronized static int gerarIdUnico() {
@@ -27,12 +29,20 @@ public class Usuario implements Serializable{
         return id;
     }
 
+    public void setId(int id) {this.id = id;}
+
     public String getSenha() {
         return senha;
     }
 
+    public void setSenha(String senha) { this.senha = senha;}
+
     public String getNome() {
         return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -64,6 +74,6 @@ public class Usuario implements Serializable{
 
     @Override
     public String toString(){
-        return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + " senha=" + senha + "]";
+        return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + " senha=" + senha + "  endereço=" + endereco + "]";
     }
 }
