@@ -1,7 +1,6 @@
 package br.ufal.ic.p2.myfood.models;
 
 public class Dono extends Usuario{
-    private String endereco;
     private String cpf;
 
     public Dono(String nome, String email, String senha, String endereco, String cpf) {
@@ -18,14 +17,6 @@ public class Dono extends Usuario{
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
     }
 
     @Override

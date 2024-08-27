@@ -7,11 +7,14 @@ import br.ufal.ic.p2.myfood.exceptions.*;
 import java.util.List;
 
 public class Facade {
-    public void zerarSistema() {
-
-    }
 
     public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuarioEmMemoria();
+
+    public void zerarSistema() {
+        PersistenciaUsuarioEmMemoria pr = (PersistenciaUsuarioEmMemoria) persistenciaUsuario;
+        pr.ApagarDadosXML();
+    }
+
 
     public void criarUsuario(String nome, String email, String senha, String endereco)
             throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException{
@@ -33,10 +36,6 @@ public class Facade {
 
         Cliente cliente = new Cliente(nome, email, senha, endereco);
         persistenciaUsuario.salvar(cliente);
-        List<Usuario> temp = persistenciaUsuario.listar();
-        for (Usuario user : temp) {
-            System.out.println(user);
-        }
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf)
@@ -66,6 +65,13 @@ public class Facade {
         for (Usuario user : temp) {
             System.out.println(user);
         }
+    }
+
+
+
+    public void encerrarSistema() {
+        PersistenciaUsuarioEmMemoria pr = (PersistenciaUsuarioEmMemoria) persistenciaUsuario;
+        pr.SerializarXML();
     }
     //Aprender a usar o try/catch para lidar com exceções.
 }

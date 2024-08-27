@@ -46,6 +46,18 @@ public class PersistenciaUsuarioEmMemoria implements Persistencia<Usuario>{
         return user_list;
     }
 
+    public void ApagarDadosXML() {
+        String caminhoArquivo = "usuarios.xml";
+
+        try (FileOutputStream fos = new FileOutputStream(caminhoArquivo)) {
+            // Escreve um conteúdo vazio no arquivo, efetivamente apagando todos os dados
+            fos.write(new byte[0]);
+            System.out.println("Todos os dados foram apagados do arquivo " + caminhoArquivo);
+        } catch (IOException e) {
+            System.out.println("Deu ruim!!");
+        }
+    }
+
     public Usuario buscarEmail(String email) throws Exception {
         for (Usuario user : user_list) {
             if(user.getEmail().equals(email)) {
@@ -76,15 +88,4 @@ public class PersistenciaUsuarioEmMemoria implements Persistencia<Usuario>{
         }
     }
 
-    public void ApagarDadosXML() {
-        String caminhoArquivo = "usuarios.xml";
-
-        try (FileOutputStream fos = new FileOutputStream(caminhoArquivo)) {
-            // Escreve um conteúdo vazio no arquivo, efetivamente apagando todos os dados
-            fos.write(new byte[0]);
-            System.out.println("Todos os dados foram apagados do arquivo " + caminhoArquivo);
-        } catch (IOException e) {
-            System.out.println("Deu ruim!!");
-        }
-    }
 }
