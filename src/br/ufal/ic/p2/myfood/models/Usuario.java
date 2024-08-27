@@ -29,13 +29,9 @@ public class Usuario implements Serializable{
         return id;
     }
 
-    public void setId(int id) {this.id = id;}
-
-    public String getSenha() {
-        return senha;
+    public void setId(int id) {
+        this.id = id;
     }
-
-    public void setSenha(String senha) { this.senha = senha;}
 
     public String getNome() {
         return nome;
@@ -53,6 +49,14 @@ public class Usuario implements Serializable{
         this.email = email;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public String getEndereco() {
         return endereco;
     }
@@ -67,7 +71,7 @@ public class Usuario implements Serializable{
             case "nome" -> nome;
             case "email" -> email;
             case "senha" -> senha;
-            case "edereco" -> endereco;
+            case "endereco" -> endereco;
             default -> null;
         };
     }
