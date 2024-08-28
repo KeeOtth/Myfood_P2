@@ -23,7 +23,7 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     }
 
     @Override
-    public void remover(int id) throws Exception {
+    public void remover(int id){
         comp_list.removeIf(comp -> comp.getId() == id);
         controle.SerializarXML(comp_list, arquivo);
     }
@@ -40,8 +40,8 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     }
 
     @Override
-    public void editar(String id, Empresa novo_modelo) throws Exception {
-        throw new Exception("ainda n fiz fodase");
+    public void editar(String id, Empresa novo_modelo){
+
     }
 
     @Override

@@ -7,11 +7,11 @@ public interface Persistencia<T> {
 
     void salvar(T modelo);
 
-    void remover(int id) throws Exception;
+    void remover(int id);
 
     void limpar();
 
-    void editar(String id, T novo_modelo) throws Exception;
+    void editar(String id, T novo_modelo);
 
     T buscar(int id);
 

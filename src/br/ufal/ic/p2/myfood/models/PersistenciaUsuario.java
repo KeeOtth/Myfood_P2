@@ -23,7 +23,7 @@ public class PersistenciaUsuario implements Persistencia<Usuario> {
     }
 
     @Override
-    public void remover(int id) throws Exception {
+    public void remover(int id){
         user_list.removeIf(user -> user.getId() == id);
         controle.SerializarXML(user_list, arquivo);
     }
@@ -40,8 +40,7 @@ public class PersistenciaUsuario implements Persistencia<Usuario> {
     }
 
     @Override
-    public void editar(String id, Usuario novo_modelo) throws Exception {
-        throw new Exception("ainda n fiz fodase");
+    public void editar(String id, Usuario novo_modelo){
     }
 
     @Override

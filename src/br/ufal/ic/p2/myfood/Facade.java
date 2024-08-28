@@ -114,14 +114,15 @@ public class Facade {
             }
         }
 
-        Usuario tempDono = persistenciaUsuario.buscar(dono);
-        if (tempDono instanceof Cliente) {
+        if (persistenciaUsuario.buscar(dono) instanceof Cliente) {
             throw new WrongTypeUserException();
         }
 
         if (tipoEmpresa.equals("restaurante")) {
+            Dono tempDono = (Dono) persistenciaUsuario.buscar(dono);
             Restaurante restaurante = new Restaurante(nome, endereco, dono, tipoCozinha);
             persistenciaEmpresa.salvar(restaurante);
+            tempDono.addComp_list(restaurante);
             return restaurante.getId();
         }
 
@@ -129,23 +130,12 @@ public class Facade {
     }
 
     public String getEmpresasDoUsuario(int idDono) throws WrongTypeUserException {
-        Usuario tempDono = persistenciaUsuario.buscar(idDono);
-        if (tempDono instanceof Cliente) {
+        if (persistenciaUsuario.buscar(idDono) instanceof Cliente) {
             throw new WrongTypeUserException();
         }
+        Dono tempDono = (Dono) persistenciaUsuario.buscar(idDono);
 
-        List<String> empresas = new ArrayList<>();
-        String resultado = "{[";
-
-        for (Empresa empresa : persistenciaEmpresa.listar()) {
-            if (empresa.getId_dono() == idDono) {
-                String comp = "[" + empresa.getNome() + ", " + empresa.getEndereco() + "]";
-                empresas.add(comp);
-            }
-        }
-
-        resultado += String.join(", ", empresas) + "]}";
-        return resultado;
+        return "{" + tempDono.getComp_list().toString() + "}";
     }
 
     public String getAtributoEmpresa(int empresa, String atributo) throws InvalidAtributeException, UnregisteredCompanyException {
@@ -171,22 +161,37 @@ public class Facade {
         return result;
     }
 
-    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, InvalidNameException {
+    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, InvalidNameException, WrongTypeUserException, UnregisteredCompanyException {
         if (nome == null || nome.isEmpty()) {
             throw new InvalidNameException();
         }
-        if (indice > persistenciaEmpresa.listar().size()) {
-            throw new OutofBoundsException();
+
+        if (persistenciaUsuario.buscar(idDono) instanceof Cliente) {
+            throw new WrongTypeUserException();
         }
 
-        for (Empresa comp : persistenciaEmpresa.listar()) {
-            if (comp.getNome().equals(nome) && comp.getId_dono() == idDono) {
-                return comp.getId();
+        List<Empresa> companiesOfUser = persistenciaEmpresa.listar()
+                                                            .stream()
+                                                            .filter(company -> company.getId_dono() == idDono && company.getNome().equals(nome))
+                                                            .toList();
+
+        System.out.println(nome + " " + companiesOfUser);
+
+        for (Empresa empresa : companiesOfUser) {
+            if (!empresa.getNome().equals(nome)) {
+                throw new UnregisteredCompanyException("Nao existe empresa com esse nome");
             }
         }
 
-        return -1;
+        if (indice >= companiesOfUser.size()) {
+            throw new OutofBoundsException();
+        } else if (indice < 0) {
+            throw new OutofBoundsException("Indice invalido");
+        }
 
+        System.out.println(nome + " " + companiesOfUser.get(indice).getId());
+
+        return companiesOfUser.get(indice).getId();
     }
 
     public void encerrarSistema() {
