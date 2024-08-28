@@ -1,5 +1,6 @@
 package br.ufal.ic.p2.myfood;
 
+
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.*;
 import br.ufal.ic.p2.myfood.exceptions.*;
@@ -7,10 +8,10 @@ import br.ufal.ic.p2.myfood.exceptions.*;
 public class Facade {
 
     public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuarioEmMemoria();
+    public SerializacaoXML controle = new SerializacaoXML();
 
     public void zerarSistema() {
-        PersistenciaUsuarioEmMemoria pr = (PersistenciaUsuarioEmMemoria) persistenciaUsuario;
-        pr.ApagarDadosXML();
+        controle.ApagarDadosXML("usuarios.xml");
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco)
@@ -94,7 +95,5 @@ public class Facade {
     }
 
     public void encerrarSistema() {
-        PersistenciaUsuarioEmMemoria pr = (PersistenciaUsuarioEmMemoria) persistenciaUsuario;
-        pr.SerializarXML();
     }
 }
