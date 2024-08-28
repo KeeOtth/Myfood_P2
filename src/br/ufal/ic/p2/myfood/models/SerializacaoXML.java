@@ -2,10 +2,10 @@ package br.ufal.ic.p2.myfood.models;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class SerializacaoXML {
 
@@ -17,19 +17,29 @@ public class SerializacaoXML {
         try (FileOutputStream fos = new FileOutputStream(nome_arquivo);
              XMLEncoder encoder = new XMLEncoder(fos)) {
             encoder.writeObject(objeto);
-            System.out.println("Lista de Objetos serializada com sucesso!");
+            System.out.println("Objetos de " + nome_arquivo + " foram serializados");
         } catch (IOException e) {
             System.out.println("Deu ruim!!");
         }
 
     }
 
-    public <T> T DesserializarXML(String nome_arquivo) {
-        T objeto = null;
+    public <T> T DesserializarXML(T objeto, String nome_arquivo) {
+        File file = new File(nome_arquivo);
+
+        // Verificar se o arquivo existe e se está vazio
+        if (!file.exists()) {
+            System.out.println(nome_arquivo + " não existe.");
+            return objeto;
+        } else if (file.length() == 0) {
+            System.out.println(nome_arquivo + " está vazio.");
+            return objeto;
+        }
+
         try (FileInputStream fis = new FileInputStream(nome_arquivo);
              XMLDecoder decoder = new XMLDecoder(fis)) {
             objeto = (T) decoder.readObject();
-            System.out.println("Lista de objetos desserializada:");
+            System.out.println("Objetos de " + nome_arquivo + " foram desserializados");
         } catch (IOException e) {
             System.out.println("Deu ruim!!");
         }

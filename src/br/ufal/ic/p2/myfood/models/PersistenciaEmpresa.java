@@ -11,6 +11,11 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     private SerializacaoXML controle = new SerializacaoXML();
 
     @Override
+    public void iniciar(String caminho) {
+        comp_list = controle.DesserializarXML(comp_list, "empresas.xml");
+    }
+
+    @Override
     public void salvar(Empresa modelo) {
         comp_list.add(modelo);
         controle.SerializarXML(modelo, "empresas.xml");
@@ -20,6 +25,17 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     public void remover(int id) throws Exception {
         comp_list.removeIf(comp -> comp.getId() == id);
         controle.SerializarXML(comp_list, "empresas.xml");
+    }
+
+    @Override
+    public void limpar() {
+        // Limpar a lista de empresas na memória
+        if (comp_list != null){
+            comp_list.clear();
+        }
+
+        // Limpar a lista de empresas no XML
+        controle.ApagarDadosXML("empresas.xml");
     }
 
     @Override

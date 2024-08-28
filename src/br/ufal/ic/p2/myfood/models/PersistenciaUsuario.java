@@ -11,6 +11,11 @@ public class PersistenciaUsuario implements Persistencia<Usuario>{
     private SerializacaoXML controle = new SerializacaoXML();
 
     @Override
+    public void iniciar(String caminho) {
+        user_list = controle.DesserializarXML(user_list, "usuarios.xml");
+    }
+
+    @Override
     public void salvar(Usuario user){
         user_list.add(user);
         controle.SerializarXML(user_list, "usuarios.xml");
@@ -20,6 +25,17 @@ public class PersistenciaUsuario implements Persistencia<Usuario>{
     public void remover(int id) throws Exception {
         user_list.removeIf(user -> user.getId() == id);
         controle.SerializarXML(user_list, "usuarios.xml");
+    }
+
+    @Override
+    public void limpar() {
+        // Limpar a lista de usuários na memória
+        if (user_list != null){
+            user_list.clear();
+        }
+
+        // Limpar a lista de usuários no XML
+        controle.ApagarDadosXML("usuarios.xml");
     }
 
     @Override
@@ -40,15 +56,6 @@ public class PersistenciaUsuario implements Persistencia<Usuario>{
     @Override
     public List<Usuario> listar() {
         return user_list;
-    }
-
-    public Usuario buscarEmail(String email) throws Exception {
-        for (Usuario user : user_list) {
-            if(user.getEmail().equals(email)) {
-                return user;
-            }
-        }
-        return null;
     }
 
 }

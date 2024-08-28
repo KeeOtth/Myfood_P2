@@ -12,15 +12,18 @@ public class Facade {
 
     public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuario();
     public Persistencia<Empresa> persistenciaEmpresa = new PersistenciaEmpresa();
-    public SerializacaoXML controle = new SerializacaoXML();
 
-    public void zerarSistema() {
-        controle.ApagarDadosXML("usuarios.xml");
+    public Facade(){
+        persistenciaUsuario.iniciar("usuario.xml");
+        persistenciaEmpresa.iniciar("empresa.xml");
     }
 
-    public void criarUsuario(String nome, String email, String senha, String endereco)
-            throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException, InvalidPasswordException{
+    public void zerarSistema() {
+        persistenciaUsuario.limpar();
+        persistenciaEmpresa.limpar();
+    }
 
+    private void testInvalid(String nome, String email, String senha, String endereco) throws InvalidNameException, InvalidEmailException, InvalidPasswordException, InvalidAddressException {
         if (nome == null || nome.isEmpty()) {
             throw new InvalidNameException();
         }
@@ -37,6 +40,13 @@ public class Facade {
             throw new InvalidAddressException();
         }
 
+    }
+
+    public void criarUsuario(String nome, String email, String senha, String endereco)
+            throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException, InvalidPasswordException{
+
+        testInvalid(nome, email, senha, endereco);
+
         for (Usuario user : persistenciaUsuario.listar()) {
             if (user.getEmail().equals(email)){
                 throw new ExistingEmailException();
@@ -50,20 +60,10 @@ public class Facade {
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf)
             throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException, InvalidCpfException, InvalidPasswordException{
 
-        if (nome == null || nome.isEmpty()) {
-            throw new InvalidNameException();
-        }
-        if (email == null || !(email.contains("@")) ){
-            throw new InvalidEmailException();
-        }
-        if (senha == null || senha.isEmpty()) {
-            throw new InvalidPasswordException();
-        }
+        testInvalid(nome, email, senha, endereco);
+
         if (cpf == null || cpf.length()!= 14){
             throw new InvalidCpfException();
-        }
-        if (endereco == null || endereco.isEmpty()) {
-            throw new InvalidAddressException();
         }
 
         for (Usuario user : persistenciaUsuario.listar()) {
@@ -77,12 +77,12 @@ public class Facade {
     }
 
     public String getAtributoUsuario(int id, String atributo)throws UnregisteredUserException{
-        for (Usuario user : persistenciaUsuario.listar()) {
-            if (user.getId() == id){
-                return user.getAtributo(atributo);
-            }
-        }
-        throw new UnregisteredUserException();
+        Usuario usuario = persistenciaUsuario.buscar(id);
+
+        if (usuario == null)
+            throw new UnregisteredUserException();
+
+        return usuario.getAtributo(atributo);
     }
 
     public int login(String email, String senha)throws InvalidLoginOrPasswordException{
@@ -164,7 +164,6 @@ public class Facade {
         }
 
         String result = tempEmpresa.getAtributo(atributo);
-
         if (result == null){ throw new InvalidAtributeException(); }
 
         return result;
