@@ -1,13 +1,17 @@
 package br.ufal.ic.p2.myfood;
 
-
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.*;
 import br.ufal.ic.p2.myfood.exceptions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Facade {
 
-    public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuarioEmMemoria();
+    public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuario();
+    public Persistencia<Empresa> persistenciaEmpresa = new PersistenciaEmpresa();
     public SerializacaoXML controle = new SerializacaoXML();
 
     public void zerarSistema() {
@@ -88,6 +92,100 @@ public class Facade {
             }
         }
         throw new InvalidLoginOrPasswordException();
+    }
+
+    // Este método está apenas criando restaurantes
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String tipoCozinha)
+            throws RepeatCompanyException, WrongTypeUserException, InvalidNameException, InvalidAddressException {
+
+        if (nome == null || nome.isEmpty()) {
+            throw new InvalidNameException();
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new InvalidAddressException();
+        }
+
+        for (Empresa empresa : persistenciaEmpresa.listar()) {
+            if (empresa.getNome().equals(nome) && empresa.getId_dono() != dono){
+                throw new RepeatCompanyException();
+            }
+            if (empresa.getNome().equals(nome) && empresa.getEndereco().equals(endereco)){
+                throw new RepeatCompanyException("Proibido cadastrar duas empresas com o mesmo nome e local");
+            }
+        }
+
+        Usuario tempDono = persistenciaUsuario.buscar(dono);
+        if (tempDono instanceof Cliente){
+            throw new WrongTypeUserException();
+        }
+
+        if (tipoEmpresa.equals("restaurante")) {
+            Restaurante restaurante = new Restaurante(nome, endereco, dono, tipoCozinha);
+            persistenciaEmpresa.salvar(restaurante);
+            return restaurante.getId();
+        }
+
+        return -1;
+    }
+
+    public String getEmpresasDoUsuario(int idDono) throws WrongTypeUserException {
+        Usuario tempDono = persistenciaUsuario.buscar(idDono);
+        if (tempDono instanceof Cliente){
+            throw new WrongTypeUserException();
+        }
+
+        List<String> empresas = new ArrayList<>();
+        String resultado = "{[";
+
+        for (Empresa empresa : persistenciaEmpresa.listar()) {
+            if (empresa.getId_dono() == idDono){
+                String comp = "[" + empresa.getNome() + ", " + empresa.getEndereco() + "]";
+                empresas.add(comp);
+            }
+        }
+
+        resultado += String.join(", ", empresas) + "]}";
+        return resultado;
+    }
+
+    public String getAtributoEmpresa(int empresa, String atributo)throws InvalidAtributeException, UnregisteredCompanyException {
+        Empresa tempEmpresa = persistenciaEmpresa.buscar(empresa);
+        if (tempEmpresa == null) {
+            throw new UnregisteredCompanyException();
+        }
+
+        if(atributo == null || atributo.isEmpty()){
+            throw new InvalidAtributeException();
+        }
+
+        if (Objects.equals(atributo, "dono")){
+            Usuario tempUsuario = persistenciaUsuario.buscar(tempEmpresa.getId_dono());
+            return tempUsuario.getNome();
+        }
+
+        String result = tempEmpresa.getAtributo(atributo);
+
+        if (result == null){ throw new InvalidAtributeException(); }
+
+        return result;
+    }
+
+    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, InvalidNameException{
+        if (nome == null || nome.isEmpty()) {
+            throw new InvalidNameException();
+        }
+        if (indice > persistenciaEmpresa.listar().size()){
+            throw new OutofBoundsException();
+        }
+
+        for (Empresa comp : persistenciaEmpresa.listar()) {
+            if (comp.getNome().equals(nome) && comp.getId_dono() == idDono ){
+                return comp.getId();
+            }
+        }
+
+        return -1;
+
     }
 
     public void encerrarSistema() {

@@ -1,12 +1,11 @@
 package br.ufal.ic.p2.myfood.models;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
-import br.ufal.ic.p2.myfood.models.SerializacaoXML;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersistenciaUsuarioEmMemoria implements Persistencia<Usuario>{
+public class PersistenciaUsuario implements Persistencia<Usuario>{
 
     private List<Usuario> user_list = new ArrayList<>();
     private SerializacaoXML controle = new SerializacaoXML();
@@ -29,7 +28,7 @@ public class PersistenciaUsuarioEmMemoria implements Persistencia<Usuario>{
     }
 
     @Override
-    public Usuario buscar(int id) throws Exception {
+    public Usuario buscar(int id){
         for (Usuario user : user_list) {
             if(user.getId() == id) {
                 return user;

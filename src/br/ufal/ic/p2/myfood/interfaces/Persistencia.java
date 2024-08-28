@@ -9,7 +9,7 @@ public interface Persistencia<T> {
 
     void editar(String id, T novo_modelo) throws Exception ;
 
-    T buscar(int id) throws Exception ;
+    T buscar(int id);
 
     List<T> listar();
 }

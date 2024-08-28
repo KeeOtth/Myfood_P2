@@ -28,7 +28,7 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     }
 
     @Override
-    public Empresa buscar(int id) throws Exception {
+    public Empresa buscar(int id){
         for (Empresa comp : comp_list) {
             if(comp.getId() == id) {
                 return comp;
