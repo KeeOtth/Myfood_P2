@@ -9,22 +9,23 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
 
     private List<Empresa> comp_list = new ArrayList<>();
     private SerializacaoXML controle = new SerializacaoXML();
+    private final String arquivo = "empresas.xml";
 
     @Override
     public void iniciar(String caminho) {
-        comp_list = controle.DesserializarXML(comp_list, "empresas.xml");
+        comp_list = controle.DesserializarXML(comp_list, arquivo);
     }
 
     @Override
     public void salvar(Empresa modelo) {
         comp_list.add(modelo);
-        controle.SerializarXML(modelo, "empresas.xml");
+        controle.SerializarXML(modelo, arquivo);
     }
 
     @Override
     public void remover(int id) throws Exception {
         comp_list.removeIf(comp -> comp.getId() == id);
-        controle.SerializarXML(comp_list, "empresas.xml");
+        controle.SerializarXML(comp_list, arquivo);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
         }
 
         // Limpar a lista de empresas no XML
-        controle.ApagarDadosXML("empresas.xml");
+        controle.ApagarDadosXML(arquivo);
     }
 
     @Override
