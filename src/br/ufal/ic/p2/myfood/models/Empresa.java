@@ -5,15 +5,17 @@ public class Empresa {
     private int id;
     private String nome;
     private String endereco;
+    private int id_dono;
 
     public Empresa() {}
 
-    public Empresa(String nome, String endereco) {
+    public Empresa(String nome, String endereco, int id_dono) {
         this.id = contador++;
         this.nome = nome;
         this.endereco = endereco;
+        this.id_dono = id_dono;
     }
-
+    //EU QUERO ENTENDER O POR QUE, APENAS. APENAS ENTENDER.
     public int getId() {
         return id;
     }
@@ -36,6 +38,14 @@ public class Empresa {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public int getId_dono() {
+        return id_dono;
+    }
+
+    public void setId_dono(int id_dono) {
+        this.id_dono = id_dono;
     }
 
     public String getAtributo(String atributo) {

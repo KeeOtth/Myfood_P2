@@ -9,7 +9,7 @@ import java.util.List;
 public class PersistenciaUsuarioEmMemoria implements Persistencia<Usuario>{
 
     private List<Usuario> user_list = new ArrayList<>();
-    public SerializacaoXML controle = new SerializacaoXML();
+    private SerializacaoXML controle = new SerializacaoXML();
 
     @Override
     public void salvar(Usuario user){
