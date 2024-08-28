@@ -2,42 +2,43 @@ package br.ufal.ic.p2.myfood.models;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PersistenciaEmpresa implements Persistencia<Empresa> {
 
-
-    private Map<Dono, List<Empresa>> comp_map = new HashMap<>();
+    private List<Empresa> comp_list = new ArrayList<>();
     private SerializacaoXML controle = new SerializacaoXML();
 
     @Override
     public void salvar(Empresa modelo) {
-
-    }
-
-    public void salvar(Dono dono, Empresa modelo) {
-
+        comp_list.add(modelo);
+        controle.SerializarXML(modelo, "empresas.xml");
     }
 
     @Override
     public void remover(int id) throws Exception {
-
+        comp_list.removeIf(comp -> comp.getId() == id);
+        controle.SerializarXML(comp_list, "empresas.xml");
     }
 
     @Override
     public void editar(String id, Empresa novo_modelo) throws Exception {
-
+        throw new Exception("ainda n fiz fodase");
     }
 
     @Override
     public Empresa buscar(int id) throws Exception {
+        for (Empresa comp : comp_list) {
+            if(comp.getId() == id) {
+                return comp;
+            }
+        }
         return null;
     }
 
     @Override
     public List<Empresa> listar() {
-        return List.of();
+        return comp_list;
     }
 }

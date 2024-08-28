@@ -21,10 +21,8 @@ public class Facade {
             throw new InvalidNameException();
         }
 
-        if (email == null){
+        if (email == null || !(email.contains("@"))){
             throw new InvalidEmailException();
-        } else if (!(email.contains("@"))){
-            throw new InvalidEmailException("Formato de email invalido");
         }
 
         if (senha == null || senha.isEmpty()) {
@@ -51,10 +49,8 @@ public class Facade {
         if (nome == null || nome.isEmpty()) {
             throw new InvalidNameException();
         }
-        if (email == null){
+        if (email == null || !(email.contains("@")) ){
             throw new InvalidEmailException();
-        } else if (!(email.contains("@"))){
-            throw new InvalidEmailException("Formato de email invalido");
         }
         if (senha == null || senha.isEmpty()) {
             throw new InvalidPasswordException();
