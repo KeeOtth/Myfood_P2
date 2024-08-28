@@ -1,8 +1,8 @@
 package br.ufal.ic.p2.myfood;
 
+import br.ufal.ic.p2.myfood.exceptions.*;
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.*;
-import br.ufal.ic.p2.myfood.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Facade {
     public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuario();
     public Persistencia<Empresa> persistenciaEmpresa = new PersistenciaEmpresa();
 
-    public Facade(){
+    public Facade() {
         persistenciaUsuario.iniciar("usuario.xml");
         persistenciaEmpresa.iniciar("empresa.xml");
     }
@@ -28,7 +28,7 @@ public class Facade {
             throw new InvalidNameException();
         }
 
-        if (email == null || !(email.contains("@"))){
+        if (email == null || !(email.contains("@"))) {
             throw new InvalidEmailException();
         }
 
@@ -43,12 +43,12 @@ public class Facade {
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco)
-            throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException, InvalidPasswordException{
+            throws InvalidEmailException, InvalidNameException, ExistingEmailException, InvalidAddressException, InvalidPasswordException {
 
         testInvalid(nome, email, senha, endereco);
 
         for (Usuario user : persistenciaUsuario.listar()) {
-            if (user.getEmail().equals(email)){
+            if (user.getEmail().equals(email)) {
                 throw new ExistingEmailException();
             }
         }
@@ -58,16 +58,16 @@ public class Facade {
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf)
-            throws InvalidEmailException,InvalidNameException, ExistingEmailException,InvalidAddressException, InvalidCpfException, InvalidPasswordException{
+            throws InvalidEmailException, InvalidNameException, ExistingEmailException, InvalidAddressException, InvalidCpfException, InvalidPasswordException {
 
         testInvalid(nome, email, senha, endereco);
 
-        if (cpf == null || cpf.length()!= 14){
+        if (cpf == null || cpf.length() != 14) {
             throw new InvalidCpfException();
         }
 
         for (Usuario user : persistenciaUsuario.listar()) {
-            if (user.getEmail().equals(email)){
+            if (user.getEmail().equals(email)) {
                 throw new ExistingEmailException();
             }
         }
@@ -76,7 +76,7 @@ public class Facade {
         persistenciaUsuario.salvar(dono);
     }
 
-    public String getAtributoUsuario(int id, String atributo)throws UnregisteredUserException{
+    public String getAtributoUsuario(int id, String atributo) throws UnregisteredUserException {
         Usuario usuario = persistenciaUsuario.buscar(id);
 
         if (usuario == null)
@@ -85,9 +85,9 @@ public class Facade {
         return usuario.getAtributo(atributo);
     }
 
-    public int login(String email, String senha)throws InvalidLoginOrPasswordException{
+    public int login(String email, String senha) throws InvalidLoginOrPasswordException {
         for (Usuario user : persistenciaUsuario.listar()) {
-            if (user.getEmail().equals(email) && user.getSenha().equals(senha)){
+            if (user.getEmail().equals(email) && user.getSenha().equals(senha)) {
                 return user.getId();
             }
         }
@@ -106,16 +106,16 @@ public class Facade {
         }
 
         for (Empresa empresa : persistenciaEmpresa.listar()) {
-            if (empresa.getNome().equals(nome) && empresa.getId_dono() != dono){
+            if (empresa.getNome().equals(nome) && empresa.getId_dono() != dono) {
                 throw new RepeatCompanyException();
             }
-            if (empresa.getNome().equals(nome) && empresa.getEndereco().equals(endereco)){
+            if (empresa.getNome().equals(nome) && empresa.getEndereco().equals(endereco)) {
                 throw new RepeatCompanyException("Proibido cadastrar duas empresas com o mesmo nome e local");
             }
         }
 
         Usuario tempDono = persistenciaUsuario.buscar(dono);
-        if (tempDono instanceof Cliente){
+        if (tempDono instanceof Cliente) {
             throw new WrongTypeUserException();
         }
 
@@ -130,7 +130,7 @@ public class Facade {
 
     public String getEmpresasDoUsuario(int idDono) throws WrongTypeUserException {
         Usuario tempDono = persistenciaUsuario.buscar(idDono);
-        if (tempDono instanceof Cliente){
+        if (tempDono instanceof Cliente) {
             throw new WrongTypeUserException();
         }
 
@@ -138,7 +138,7 @@ public class Facade {
         String resultado = "{[";
 
         for (Empresa empresa : persistenciaEmpresa.listar()) {
-            if (empresa.getId_dono() == idDono){
+            if (empresa.getId_dono() == idDono) {
                 String comp = "[" + empresa.getNome() + ", " + empresa.getEndereco() + "]";
                 empresas.add(comp);
             }
@@ -148,37 +148,39 @@ public class Facade {
         return resultado;
     }
 
-    public String getAtributoEmpresa(int empresa, String atributo)throws InvalidAtributeException, UnregisteredCompanyException {
+    public String getAtributoEmpresa(int empresa, String atributo) throws InvalidAtributeException, UnregisteredCompanyException {
         Empresa tempEmpresa = persistenciaEmpresa.buscar(empresa);
         if (tempEmpresa == null) {
             throw new UnregisteredCompanyException();
         }
 
-        if(atributo == null || atributo.isEmpty()){
+        if (atributo == null || atributo.isEmpty()) {
             throw new InvalidAtributeException();
         }
 
-        if (Objects.equals(atributo, "dono")){
+        if (Objects.equals(atributo, "dono")) {
             Usuario tempUsuario = persistenciaUsuario.buscar(tempEmpresa.getId_dono());
             return tempUsuario.getNome();
         }
 
         String result = tempEmpresa.getAtributo(atributo);
-        if (result == null){ throw new InvalidAtributeException(); }
+        if (result == null) {
+            throw new InvalidAtributeException();
+        }
 
         return result;
     }
 
-    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, InvalidNameException{
+    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, InvalidNameException {
         if (nome == null || nome.isEmpty()) {
             throw new InvalidNameException();
         }
-        if (indice > persistenciaEmpresa.listar().size()){
+        if (indice > persistenciaEmpresa.listar().size()) {
             throw new OutofBoundsException();
         }
 
         for (Empresa comp : persistenciaEmpresa.listar()) {
-            if (comp.getNome().equals(nome) && comp.getId_dono() == idDono ){
+            if (comp.getNome().equals(nome) && comp.getId_dono() == idDono) {
                 return comp.getId();
             }
         }

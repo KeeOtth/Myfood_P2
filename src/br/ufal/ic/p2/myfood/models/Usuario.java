@@ -2,7 +2,7 @@ package br.ufal.ic.p2.myfood.models;
 
 import java.io.Serializable;
 
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
     private static int contador = 0; //Pra gerar o id único, estático para ser compartilhado entre todas as instâncias.
     private int id;
     private String nome;
@@ -10,7 +10,7 @@ public class Usuario implements Serializable{
     private String senha;
     private String endereco;
 
-    public Usuario(String nome, String email, String senha, String endereco){
+    public Usuario(String nome, String email, String senha, String endereco) {
         this.id = gerarIdUnico();
         this.nome = nome;
         this.email = email;
@@ -66,7 +66,7 @@ public class Usuario implements Serializable{
     }
 
     public String getAtributo(String atributo) {
-        return switch(atributo) {
+        return switch (atributo) {
             case "id" -> String.valueOf(id);
             case "nome" -> nome;
             case "email" -> email;
@@ -77,7 +77,7 @@ public class Usuario implements Serializable{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + " senha=" + senha + "  endereço=" + endereco + "]";
     }
 }

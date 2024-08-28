@@ -5,7 +5,7 @@ import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersistenciaUsuario implements Persistencia<Usuario>{
+public class PersistenciaUsuario implements Persistencia<Usuario> {
 
     private List<Usuario> user_list = new ArrayList<>();
     private SerializacaoXML controle = new SerializacaoXML();
@@ -17,7 +17,7 @@ public class PersistenciaUsuario implements Persistencia<Usuario>{
     }
 
     @Override
-    public void salvar(Usuario user){
+    public void salvar(Usuario user) {
         user_list.add(user);
         controle.SerializarXML(user_list, arquivo);
     }
@@ -31,7 +31,7 @@ public class PersistenciaUsuario implements Persistencia<Usuario>{
     @Override
     public void limpar() {
         // Limpar a lista de usuários na memória
-        if (user_list != null){
+        if (user_list != null) {
             user_list.clear();
         }
 
@@ -45,9 +45,9 @@ public class PersistenciaUsuario implements Persistencia<Usuario>{
     }
 
     @Override
-    public Usuario buscar(int id){
+    public Usuario buscar(int id) {
         for (Usuario user : user_list) {
-            if(user.getId() == id) {
+            if (user.getId() == id) {
                 return user;
             }
         }

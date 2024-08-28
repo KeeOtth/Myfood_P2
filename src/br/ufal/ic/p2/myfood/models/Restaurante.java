@@ -1,9 +1,10 @@
 package br.ufal.ic.p2.myfood.models;
 
-public class Restaurante extends Empresa{
+public class Restaurante extends Empresa {
     private String tipoCozinha;
 
-    public Restaurante(){}
+    public Restaurante() {
+    }
 
     public Restaurante(String nome, String endereco, int id_dono, String tipoCozinha) {
         super(nome, endereco, id_dono);

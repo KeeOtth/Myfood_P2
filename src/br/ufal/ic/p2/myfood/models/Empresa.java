@@ -7,7 +7,8 @@ public class Empresa {
     private String endereco;
     private int id_dono;
 
-    public Empresa() {}
+    public Empresa() {
+    }
 
     public Empresa(String nome, String endereco, int id_dono) {
         this.id = contador++;
@@ -15,6 +16,7 @@ public class Empresa {
         this.endereco = endereco;
         this.id_dono = id_dono;
     }
+
     //EU QUERO ENTENDER O POR QUE, APENAS. APENAS ENTENDER.
     public int getId() {
         return id;
@@ -49,11 +51,16 @@ public class Empresa {
     }
 
     public String getAtributo(String atributo) {
-        return switch(atributo) {
+        return switch (atributo) {
             case "id" -> String.valueOf(id);
             case "nome" -> nome;
             case "endereco" -> endereco;
             default -> null;
         };
+    }
+
+    @Override
+    public String toString() {
+        return "Empresa [id=" + id + ", nome=" + nome + ", id_dono=" + id_dono + "  endereço=" + endereco + "]";
     }
 }

@@ -1,6 +1,6 @@
 package br.ufal.ic.p2.myfood.models;
 
-public class Dono extends Usuario{
+public class Dono extends Usuario {
     private String cpf;
 
     public Dono(String nome, String email, String senha, String endereco, String cpf) {

@@ -19,7 +19,7 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     @Override
     public void salvar(Empresa modelo) {
         comp_list.add(modelo);
-        controle.SerializarXML(modelo, arquivo);
+        controle.SerializarXML(comp_list, arquivo);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     @Override
     public void limpar() {
         // Limpar a lista de empresas na memória
-        if (comp_list != null){
+        if (comp_list != null) {
             comp_list.clear();
         }
 
@@ -45,9 +45,9 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     }
 
     @Override
-    public Empresa buscar(int id){
+    public Empresa buscar(int id) {
         for (Empresa comp : comp_list) {
-            if(comp.getId() == id) {
+            if (comp.getId() == id) {
                 return comp;
             }
         }
