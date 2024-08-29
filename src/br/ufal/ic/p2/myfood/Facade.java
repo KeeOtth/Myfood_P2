@@ -175,12 +175,16 @@ public class Facade {
                                                             .filter(company -> company.getId_dono() == idDono && company.getNome().equals(nome))
                                                             .toList();
 
-        System.out.println(nome + " " + companiesOfUser);
+//        System.out.println(nome + " " + companiesOfUser);
 
         for (Empresa empresa : companiesOfUser) {
             if (!empresa.getNome().equals(nome)) {
                 throw new UnregisteredCompanyException("Nao existe empresa com esse nome");
             }
+        }
+
+        if(getIndexByNome(companiesOfUser, nome) == -1) {
+            throw new UnregisteredCompanyException("Nao existe empresa com esse nome");
         }
 
         if (indice >= companiesOfUser.size()) {
@@ -189,9 +193,22 @@ public class Facade {
             throw new OutofBoundsException("Indice invalido");
         }
 
-        System.out.println(nome + " " + companiesOfUser.get(indice).getId());
+//        System.out.println(nome + " " + companiesOfUser.get(indice).getId());
 
         return companiesOfUser.get(indice).getId();
+    }
+
+    public static int getIndexByNome(List<Empresa> empresas, String nome) {
+        for (int i = 0; i < empresas.size(); i++) {
+            if (empresas.get(i).getNome().equals(nome)) {
+                return i;  // Retorna o índice da primeira ocorrência
+            }
+        }
+        return -1;  // Retorna -1 se não encontrar
+    }
+
+    public int criarProduto(int id_empresa, String nome, float valor, String categoria) {
+        return 1;
     }
 
     public void encerrarSistema() {

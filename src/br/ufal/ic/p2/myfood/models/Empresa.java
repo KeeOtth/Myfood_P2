@@ -1,11 +1,14 @@
 package br.ufal.ic.p2.myfood.models;
 
+import java.util.List;
+
 public class Empresa {
     private static int contador = 1;
     private int id;
     private String nome;
     private String endereco;
     private int id_dono;
+    private List<Produto> prod_list;
 
     public Empresa() {
     }
@@ -57,6 +60,14 @@ public class Empresa {
             case "endereco" -> endereco;
             default -> null;
         };
+    }
+
+    public List<Produto> getProd_list() {
+        return prod_list;
+    }
+
+    public void setProd_list(List<Produto> prod_list) {
+        this.prod_list = prod_list;
     }
 
     @Override
