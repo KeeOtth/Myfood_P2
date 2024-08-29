@@ -16,6 +16,22 @@ public class Facade {
     public Facade() {
         persistenciaUsuario.iniciar("usuario.xml");
         persistenciaEmpresa.iniciar("empresa.xml");
+
+        // Popular o ArrayList comp_list dos donos
+        for (Usuario usuario : persistenciaUsuario.listar()) {
+            if (usuario instanceof Dono) {
+                Dono dono = (Dono) usuario;
+
+                List<Empresa> companiesOfUser = persistenciaEmpresa.listar()
+                        .stream()
+                        .filter(company -> company.getId_dono() == dono.getId())
+                        .toList();
+
+                dono.setComp_list(companiesOfUser);
+
+            }
+        }
+
     }
 
     public void zerarSistema() {
@@ -208,6 +224,9 @@ public class Facade {
     }
 
     public int criarProduto(int id_empresa, String nome, float valor, String categoria) {
+        Produto produto = new Produto(nome, valor, categoria);
+
+
         return 1;
     }
 
