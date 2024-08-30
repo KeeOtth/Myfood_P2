@@ -55,4 +55,18 @@ public class Facade {
         return sys.criarProduto(id_empresa, nome, valor, categoria);
     }
 
+    public void editarProduto(int produto, String nome, float valor, String categoria) throws ProductCreationException {
+        sys.editarProduto(produto, nome, valor, categoria);
+    }
+
+    public String getProduto(String nome, int empresa, String atributo) throws InvalidAtributeException, UnregisteredProductException {
+        return sys.getProduto(nome, empresa, atributo);
+    }
+
+    public String listarProdutos(int empresa) throws UnregisteredCompanyException {
+        return sys.listarProdutos(empresa);
+    }
+
+    // User Story 4
+
 }

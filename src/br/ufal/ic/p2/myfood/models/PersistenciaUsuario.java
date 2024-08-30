@@ -35,6 +35,7 @@ public class PersistenciaUsuario implements Persistencia<Usuario> {
             user_list.clear();
         }
 
+
         // Limpar a lista de usuários no XML
         controle.ApagarDadosXML(arquivo);
     }

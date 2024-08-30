@@ -6,7 +6,6 @@ public class Produto {
     private String nome;
     private float valor;
     private String categoria;
-    private int id_empresa;
 
     public Produto() {
     }
@@ -50,11 +49,7 @@ public class Produto {
         this.id = id;
     }
 
-    public int getId_empresa() {
-        return id_empresa;
-    }
-
-    public void setId_empresa(int id_empresa) {
-        this.id_empresa = id_empresa;
+    public String toString(){
+        return nome;
     }
 }

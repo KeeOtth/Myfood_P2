@@ -1,5 +1,6 @@
 package br.ufal.ic.p2.myfood.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Empresa {
@@ -68,6 +69,10 @@ public class Empresa {
 
     public void setProd_list(List<Produto> prod_list) {
         this.prod_list = prod_list;
+    }
+
+    public void addProd_list(Produto produto){
+        this.prod_list.add(produto);
     }
 
     @Override
