@@ -6,15 +6,17 @@ public class Produto {
     private String nome;
     private float valor;
     private String categoria;
+    private int id_dono;
 
     public Produto() {
     }
 
-    public Produto(String nome, float valor, String categoria) {
+    public Produto(String nome, float valor, String categoria, int id_dono) {
         this.id = contador++;
         this.nome = nome;
         this.valor = valor;
         this.categoria = categoria;
+        this.id_dono = id_dono;
     }
 
     public String getNome() {
@@ -51,5 +53,13 @@ public class Produto {
 
     public String toString(){
         return nome;
+    }
+
+    public int getId_dono() {
+        return id_dono;
+    }
+
+    public void setId_dono(int id_dono) {
+        this.id_dono = id_dono;
     }
 }

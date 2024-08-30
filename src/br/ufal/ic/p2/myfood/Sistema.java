@@ -31,13 +31,12 @@ public class Sistema {
         }
         for (Empresa comp : persistenciaEmpresa.listar()) {
            //TERMINAR ESSA PORRA AQUI!
-                List<Produto> productsOfComp = persistenciaProduto.listar()
-                        .stream()
-                        .filter(produto -> produto.get().getId() == dono.getId())
-                        .toList();
+            List<Produto> productsOfComp = persistenciaProduto.listar()
+                    .stream()
+                    .filter(produto -> produto.getId_dono() == comp.getId())
+                    .toList();
 
-                dono.setComp_list(productsOfComp);
-
+            comp.setProd_list(productsOfComp);
         }
     }
 
@@ -48,6 +47,7 @@ public class Sistema {
     }
 
     public void encerrarSistema() {
+
     }
 
     private void testUserInvalid(String nome, String email, String senha, String endereco) throws UserCreationException {
@@ -255,7 +255,7 @@ public class Sistema {
             }
         }
 
-        Produto produto = new Produto(nome, valor, categoria);
+        Produto produto = new Produto(nome, valor, categoria, comp.getId());
         persistenciaProduto.salvar(produto);
         comp.addProd_list(produto);
         return produto.getId();

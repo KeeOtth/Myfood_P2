@@ -38,7 +38,8 @@ public class PersistenciaProduto implements Persistencia<Produto> {
 
     @Override
     public void editar(Produto novo_produto) {
-
+        prod_list.set(novo_produto.getId(), novo_produto);
+        controle.SerializarXML(prod_list, arquivo);
     }
 
     @Override
