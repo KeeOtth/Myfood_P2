@@ -7,20 +7,20 @@ public class Empresa {
     private int id;
     private String nome;
     private String endereco;
-    private int id_dono;
+    private Dono dono;
     private List<Produto> prod_list;
 
     public Empresa() {
     }
 
-    public Empresa(String nome, String endereco, int id_dono) {
+    public Empresa(String nome, String endereco, Dono dono) {
         this.id = contador++;
         this.nome = nome;
         this.endereco = endereco;
-        this.id_dono = id_dono;
+        this.dono = dono;
+        prod_list = new ArrayList<>();
     }
 
-    //EU QUERO ENTENDER O POR QUE, APENAS. APENAS ENTENDER.
     public int getId() {
         return id;
     }
@@ -45,12 +45,12 @@ public class Empresa {
         this.endereco = endereco;
     }
 
-    public int getId_dono() {
-        return id_dono;
+    public Dono getDono() {
+        return dono;
     }
 
-    public void setId_dono(int id_dono) {
-        this.id_dono = id_dono;
+    public void setDono(Dono dono) {
+        this.dono = dono;
     }
 
     public String getAtributo(String atributo) {

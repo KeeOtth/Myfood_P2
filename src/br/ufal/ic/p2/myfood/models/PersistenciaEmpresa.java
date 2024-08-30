@@ -12,7 +12,7 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     private final String arquivo = "empresas.xml";
 
     @Override
-    public void iniciar(String caminho) {
+    public void iniciar() {
         comp_list = controle.DesserializarXML(comp_list, arquivo);
     }
 
@@ -40,7 +40,7 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     }
 
     @Override
-    public void editar(String id, Empresa novo_modelo){
+    public void editar(Empresa nova_empresa){
 
     }
 

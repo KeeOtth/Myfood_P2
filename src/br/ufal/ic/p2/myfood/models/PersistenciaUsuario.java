@@ -12,7 +12,7 @@ public class PersistenciaUsuario implements Persistencia<Usuario> {
     private final String arquivo = "usuarios.xml";
 
     @Override
-    public void iniciar(String caminho) {
+    public void iniciar() {
         user_list = controle.DesserializarXML(user_list, arquivo);
     }
 
@@ -40,7 +40,7 @@ public class PersistenciaUsuario implements Persistencia<Usuario> {
     }
 
     @Override
-    public void editar(String id, Usuario novo_modelo){
+    public void editar(Usuario novo_usuario){
     }
 
     @Override
