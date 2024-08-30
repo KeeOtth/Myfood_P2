@@ -3,26 +3,22 @@ package br.ufal.ic.p2.myfood.models;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
-    private static int contador = 0; //Pra gerar o id único, estático para ser compartilhado entre todas as instâncias.
+    private static int contador = 1; //Pra gerar o id único, estático para ser compartilhado entre todas as instâncias.
     private int id;
     private String nome;
     private String email;
     private String senha;
     private String endereco;
 
+    public Usuario() {
+    }
+
     public Usuario(String nome, String email, String senha, String endereco) {
-        this.id = gerarIdUnico();
+        this.id = contador++;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.endereco = endereco;
-    }
-
-    public Usuario() {
-    }
-
-    private synchronized static int gerarIdUnico() {
-        return ++contador;
     }
 
     public int getId() {

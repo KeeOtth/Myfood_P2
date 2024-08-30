@@ -7,13 +7,13 @@ public class Dono extends Usuario {
     private String cpf;
     private List<Empresa> comp_list;
 
+    public Dono() {
+    }
+
     public Dono(String nome, String email, String senha, String endereco, String cpf) {
         super(nome, email, senha, endereco);
         this.cpf = cpf;
         this.comp_list = new ArrayList<Empresa>();
-    }
-
-    public Dono() {
     }
 
     public String getCpf() {
