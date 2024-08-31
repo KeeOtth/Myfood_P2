@@ -1,15 +1,17 @@
 package br.ufal.ic.p2.myfood.models;
 
+import br.ufal.ic.p2.myfood.exceptions.UnregisteredException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
     private static int contador = 1;
     private int numero;
-    private String cliente;
-    private String empresa;
+    private Usuario cliente;
+    private Empresa empresa;
     private String estado;
-    private final List<Produto> prod_list = new ArrayList<>();
+    private List<Produto> prod_list = new ArrayList<>();
     private float valor_total;
 
     public Pedido () {
@@ -18,8 +20,8 @@ public class Pedido {
 
     public Pedido (Usuario cliente, Empresa empresa) {
         this.numero = contador++;
-        this.cliente = cliente.getNome();
-        this.empresa = empresa.getNome();
+        this.cliente = cliente;
+        this.empresa = empresa;
         this.estado = "aberto";
     }
 
@@ -31,19 +33,19 @@ public class Pedido {
         this.numero = numero;
     }
 
-    public String getCliente() {
+    public Usuario getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(Usuario cliente) {
         this.cliente = cliente;
     }
 
-    public String getEmpresa() {
+    public Empresa getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(String empresa) {
+    public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
 
@@ -51,17 +53,25 @@ public class Pedido {
         return estado;
     }
 
-    public void setEstado() throws Exception {
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void changeEstado() throws UnregisteredException {
         if (this.estado.equals("aberto")){
-            this.estado = "fechado";
+            this.estado = "preparando";
         }
         else {
-            throw new Exception("Este pedido nao esta aberto");
+            throw new UnregisteredException("Este pedido nao esta aberto");
         }
     }
 
     public List<Produto> getProd_list() {
         return prod_list;
+    }
+
+    public void setProd_list(List<Produto> prod_list) {
+        this.prod_list = prod_list;
     }
 
     public float getValor_total() {
@@ -80,5 +90,10 @@ public class Pedido {
     public void removeProductFromList(Produto produto) {
         prod_list.remove(produto);
         this.valor_total -= produto.getValor();
+    }
+
+    public String toString(){
+        return "id = " + numero + ", Cliente = " + cliente.getNome() + ", Empresa = " + empresa.getNome() + ", Estado = " + estado + "\n"
+                + "Produtos de pedido:\n" + prod_list + "\n\n";
     }
 }
