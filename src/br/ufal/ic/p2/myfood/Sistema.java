@@ -13,11 +13,13 @@ public class Sistema {
     public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuario();
     public Persistencia<Empresa> persistenciaEmpresa = new PersistenciaEmpresa();
     public Persistencia<Produto> persistenciaProduto = new PersistenciaProduto();
+    public Persistencia<Pedido> persistenciaPedido = new PersistenciaPedido();
 
     public Sistema() {
         persistenciaUsuario.iniciar();
         persistenciaEmpresa.iniciar();
         persistenciaProduto.iniciar();
+        persistenciaPedido.iniciar();
         // Popular o ArrayList comp_list dos donos
         for (Usuario usuario : persistenciaUsuario.listar()) {
             if (usuario instanceof Dono dono) {
@@ -30,7 +32,6 @@ public class Sistema {
             }
         }
         for (Empresa comp : persistenciaEmpresa.listar()) {
-           //TERMINAR ESSA PORRA AQUI!
             List<Produto> productsOfComp = persistenciaProduto.listar()
                     .stream()
                     .filter(produto -> produto.getId_dono() == comp.getId())
@@ -38,12 +39,14 @@ public class Sistema {
 
             comp.setProd_list(productsOfComp);
         }
+        // Fazer o filtro que popula o arraylist de pedidos
     }
 
     public void zerarSistema() {
         persistenciaUsuario.limpar();
         persistenciaEmpresa.limpar();
         persistenciaProduto.limpar();
+        persistenciaPedido.limpar();
     }
 
     public void encerrarSistema() {
@@ -307,4 +310,19 @@ public class Sistema {
 
         return "{" + comp.getProd_list() + "}";
     }
+
+    public int criarPedido(int cliente, int empresa) {
+        Usuario temp_cliente = persistenciaUsuario.buscar(cliente);
+        Empresa temp_comp = persistenciaEmpresa.buscar(empresa);
+
+        Pedido ped = new Pedido(temp_cliente, temp_comp);
+        persistenciaPedido.salvar(ped);
+
+        return ped.getNumero();
+    }
+
+    //Não entendi direito o que isso tem que fazer então resolvi parar por aqui pra entender melhor.
+//    public int getNumeroPedido(int cliente, int empresa, int indice) {
+//
+//    }
 }
