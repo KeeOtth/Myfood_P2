@@ -268,9 +268,12 @@ public class Sistema {
         if (prod == null) {
             throw new ProductCreationException("Produto nao cadastrado");
         }
-        persistenciaProduto.buscar(id_produto).setNome(nome);
-        persistenciaProduto.buscar(id_produto).setValor(valor);
-        persistenciaProduto.buscar(id_produto).setCategoria(categoria);
+
+        prod.setNome(nome);
+        prod.setValor(valor);
+        prod.setCategoria(categoria);
+
+        persistenciaProduto.editar(prod);
     }
 
     public String getProduto(String nome, int empresa, String atributo) throws InvalidAtributeException, UnregisteredProductException {
