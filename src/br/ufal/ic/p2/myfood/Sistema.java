@@ -55,6 +55,16 @@ public class Sistema {
 
     }
 
+    public List<Pedido> pedidosClienteEmpresa(int cliente, int empresa) {
+        String nomeCliente = persistenciaUsuario.buscar(cliente).getNome();
+        String nomeEmpresa = persistenciaEmpresa.buscar(empresa).getNome();
+
+        return persistenciaPedido.listar()
+                .stream()
+                .filter(pedido -> pedido.getCliente().getNome().equals(nomeCliente) && pedido.getEmpresa().getNome().equals(nomeEmpresa) && pedido.getEstado().equals("aberto"))
+                .toList();
+    }
+
     private void testUserInvalid(String nome, String email, String senha, String endereco) throws UserCreationException {
         if (nome == null || nome.isEmpty()) {
             throw new UserCreationException("Nome invalido");

@@ -58,4 +58,9 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
     public List<Empresa> listar() {
         return comp_list;
     }
+
+    @Override
+    public void atualizar() {
+        controle.SerializarXML(comp_list, arquivo);
+    }
 }

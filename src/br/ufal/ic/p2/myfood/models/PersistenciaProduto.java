@@ -62,4 +62,9 @@ public class PersistenciaProduto implements Persistencia<Produto> {
     public List<Produto> listar() {
         return prod_list;
     }
+
+    @Override
+    public void atualizar() {
+        controle.SerializarXML(prod_list, arquivo);
+    }
 }

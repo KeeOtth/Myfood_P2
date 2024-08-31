@@ -88,8 +88,9 @@ public class Pedido {
     }
 
     public void removeProductFromList(Produto produto) {
-        prod_list.remove(produto);
-        this.valor_total -= produto.getValor();
+        if (prod_list.remove(produto)){
+            this.valor_total -= produto.getValor();
+        }
     }
 
     public String toString(){

@@ -16,4 +16,6 @@ public interface Persistencia<T> {
     T buscar(int id);
 
     List<T> listar();
+
+    void atualizar();
 }

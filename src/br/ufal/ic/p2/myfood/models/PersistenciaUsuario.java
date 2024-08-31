@@ -59,4 +59,8 @@ public class PersistenciaUsuario implements Persistencia<Usuario> {
         return user_list;
     }
 
+    @Override
+    public void atualizar() {
+        controle.SerializarXML(user_list, arquivo);
+    }
 }

@@ -38,7 +38,7 @@ public class PersistenciaPedido implements Persistencia<Pedido> {
 
     @Override
     public void editar(Pedido novo_modelo) {
-
+        controle.SerializarXML(carrinho, arquivo);
     }
 
     @Override
@@ -54,5 +54,10 @@ public class PersistenciaPedido implements Persistencia<Pedido> {
     @Override
     public List<Pedido> listar() {
         return carrinho;
+    }
+
+    @Override
+    public void atualizar() {
+        controle.SerializarXML(carrinho, arquivo);
     }
 }
