@@ -16,7 +16,6 @@ public class Pedido {
 
     // O construtor vazio é necessário para a serialização e desserialização
     public Pedido () {
-
     }
 
     public Pedido (Usuario cliente, Empresa empresa) {

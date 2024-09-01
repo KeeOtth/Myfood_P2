@@ -66,7 +66,6 @@ public class Sistema {
      * Encerra o sistema, salvando todos os dados nos XML
      */
     public void encerrarSistema() {
-
     }
 
     /**
