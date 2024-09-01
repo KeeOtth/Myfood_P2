@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.myfood.models;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
+import br.ufal.ic.p2.myfood.models.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;

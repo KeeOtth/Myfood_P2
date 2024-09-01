@@ -3,13 +3,14 @@ package br.ufal.ic.p2.myfood.models;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
-    private static int contador = 1; //Pra gerar o id único, estático para ser compartilhado entre todas as instâncias.
+    private static int contador = 1; //Para gerar o id único dos Usuários
     private int id;
     private String nome;
     private String email;
     private String senha;
     private String endereco;
 
+    // O construtor vazio é necessário para a serialização e desserialização
     public Usuario() {
     }
 
@@ -20,6 +21,8 @@ public class Usuario implements Serializable {
         this.senha = senha;
         this.endereco = endereco;
     }
+
+    // Getters e Setters
 
     public int getId() {
         return id;
@@ -61,6 +64,11 @@ public class Usuario implements Serializable {
         this.endereco = endereco;
     }
 
+    /**
+     * Retorna o valor do atributo desejado da classe
+     * @param atributo o nome do atributo desejado
+     * @return Uma 'string' com o valor do atributo desejado
+     */
     public String getAtributo(String atributo) {
         return switch (atributo) {
             case "id" -> String.valueOf(id);

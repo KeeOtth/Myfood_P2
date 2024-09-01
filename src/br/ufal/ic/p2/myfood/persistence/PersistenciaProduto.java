@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.myfood.models;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
+import br.ufal.ic.p2.myfood.models.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,10 @@ public class PersistenciaProduto implements Persistencia<Produto> {
         controle.ApagarDadosXML(arquivo);
     }
 
+    /**
+     * Localiza o produto a ser editado e o substitui pelo novo_produto.
+     * @param novo_produto Um objeto da classe Produto com as informações editadas
+     */
     @Override
     public void editar(Produto novo_produto) {
         for (int i = 0; i < prod_list.size(); i++) {
