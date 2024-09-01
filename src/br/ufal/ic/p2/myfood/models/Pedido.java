@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
-    private static int contador = 1;
+    private static int contador = 1; //Para gerar o id único dos Pedidos
     private int numero;
     private Usuario cliente;
     private Empresa empresa;
@@ -14,8 +14,8 @@ public class Pedido {
     private List<Produto> prod_list = new ArrayList<>();
     private float valor_total;
 
+    // O construtor vazio é necessário para a serialização e desserialização
     public Pedido () {
-
     }
 
     public Pedido (Usuario cliente, Empresa empresa) {
@@ -24,6 +24,8 @@ public class Pedido {
         this.empresa = empresa;
         this.estado = "aberto";
     }
+
+    // Getters e Setters
 
     public int getNumero() {
         return numero;
@@ -57,6 +59,10 @@ public class Pedido {
         this.estado = estado;
     }
 
+    /**
+     * Muda o estado do pedido de 'aberto' para 'fechado'
+     * @throws UnregisteredException Retorna erro caso o pedido não exista ou não esteja aberto
+     */
     public void changeEstado() throws UnregisteredException {
         if (this.estado.equals("aberto")){
             this.estado = "preparando";
@@ -82,11 +88,19 @@ public class Pedido {
         this.valor_total = valor_total;
     }
 
+    /**
+     * Adiciona um produto no prod_list e soma o valor no total da compra
+     * @param produto O produto que deseja adicionar
+     */
     public void addProductToList(Produto produto) {
         prod_list.add(produto);
         this.valor_total += produto.getValor();
     }
 
+    /**
+     * Remove um produto do prod_list e subtrai o valor no total da compra
+     * @param produto O produto que deseja remover
+     */
     public void removeProductFromList(Produto produto) {
         if (prod_list.remove(produto)){
             this.valor_total -= produto.getValor();

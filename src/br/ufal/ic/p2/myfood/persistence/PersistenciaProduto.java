@@ -1,6 +1,7 @@
-package br.ufal.ic.p2.myfood.models;
+package br.ufal.ic.p2.myfood.persistence;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
+import br.ufal.ic.p2.myfood.models.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,11 @@ public class PersistenciaProduto implements Persistencia<Produto> {
 
     private List<Produto> prod_list = new ArrayList<>();
     private SerializacaoXML controle = new SerializacaoXML();
-    private final String arquivo = "produtos.xml";
+    private final String arquivo = "xml/produtos.xml";
 
+    /**
+     *  Desserializa o arquivo XML do Produto e guardar na memória
+     */
     @Override
     public void iniciar() {
         prod_list = controle.DesserializarXML(prod_list, arquivo);
@@ -36,6 +40,10 @@ public class PersistenciaProduto implements Persistencia<Produto> {
         controle.ApagarDadosXML(arquivo);
     }
 
+    /**
+     * Localiza o produto a ser editado e o substitui pelo novo_produto.
+     * @param novo_produto Um objeto da classe Produto com as informações editadas
+     */
     @Override
     public void editar(Produto novo_produto) {
         for (int i = 0; i < prod_list.size(); i++) {
