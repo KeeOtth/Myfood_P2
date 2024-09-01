@@ -2,6 +2,8 @@
 
 # Relatório
 
+
+
 ## INTRODUÇÃO:
   O Myfood é um simples sistema de delivery onde é possível cadastrar empresas (restaurantes até então) e clientes, além de produtos para as empresas, de forma que possa ser feita uma ponte entre essas entidades e suas devidas demandas relacionadas a produtos, garantindo que cada cliente terá seu pedido gerado, processado e atendido corretamente.
 
@@ -19,3 +21,18 @@
 
 ### 1.3 _Persistence_
   São as classes responsáveis por administrar a persistência de dados para todas as demais classes do sistema, elas possuem métodos importantes para criação, manutenção e remoção de dados no formato de persistência escolhido, nesse caso, Xml.
+
+
+
+## PRINCIPAIS COMPONENTES
+
+### 1 USUÁRIOS
+  Usuários podem ser **Clientes** ou **Donos**, são a base de quem estará usando o sistema, os usuários do tipo **Dono** podem criar _Empresas_ e registrar _Produtos_ a serem vendidos nessas empresas, já o usuário do tipo **Cliente** pode fazer um _Pedido_ para uma _Empresa_ solicitando um _Produto_.
+  A princípio optamos por tornar **Usuário** uma classe abstrata da qual herdariam **Cliente** e **Dono**, depois mudamos de ideia quanto a isso devido há não haver uma distinção explícita de **Cliente** para a classe base usuário.
+
+### 1.1 EMPRESAS E PRODUTOS
+  Empresas são classes relacionadas à usuários do tipo **Dono**, apenas donos podem criar uma empresa e cadastrar produtos, além disso os pedidos feitos por **Clientes** são direcionados a essas empresas.
+  Produtos são oferecidos por donos em suas empresas e podem ser solicitados por clientes.
+
+### 1.2 PEDIDOS
+  Pedidos podem ser feitos por usuários do tipo **Cliente**, eles conterão informação de quem é o cliente que o solicitou, para qual _empresa_ e qual _produto_ foi solicitado, além de possuir um estado indicando se o pedido está aberto ou fechado.
