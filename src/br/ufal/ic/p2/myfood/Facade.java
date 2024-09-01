@@ -3,19 +3,19 @@ package br.ufal.ic.p2.myfood;
 import br.ufal.ic.p2.myfood.exceptions.*;
 
 public class Facade {
-    private Sistema sys = new Sistema();
+    private final Sistema sys = new Sistema();
 
-    public void zerarSistema(){
+    public void zerarSistema() {
         sys.zerarSistema();
     }
 
-    public void encerrarSistema(){
+    public void encerrarSistema() {
         sys.encerrarSistema();
     }
 
     // User Story 1
 
-    public String getAtributoUsuario(int id, String atributo) throws UnregisteredUserException {
+    public String getAtributoUsuario(int id, String atributo) throws UnregisteredException {
         return sys.getAtributoUsuario(id, atributo);
     }
 
@@ -41,11 +41,11 @@ public class Facade {
         return sys.getEmpresasDoUsuario(dono);
     }
 
-    public String getAtributoEmpresa(int empresa, String atributo) throws InvalidAtributeException, UnregisteredCompanyException {
+    public String getAtributoEmpresa(int empresa, String atributo) throws InvalidAtributeException, UnregisteredException {
         return sys.getAtributoEmpresa(empresa, atributo);
     }
 
-    public int getIdEmpresa(int idDono, String nome, int indice)  throws OutofBoundsException, WrongTypeUserException, UnregisteredCompanyException, CompanyCreationException {
+    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, WrongTypeUserException, UnregisteredException, CompanyCreationException {
         return sys.getIdEmpresa(idDono, nome, indice);
     }
 
@@ -59,14 +59,38 @@ public class Facade {
         sys.editarProduto(produto, nome, valor, categoria);
     }
 
-    public String getProduto(String nome, int empresa, String atributo) throws InvalidAtributeException, UnregisteredProductException {
+    public String getProduto(String nome, int empresa, String atributo) throws InvalidAtributeException, UnregisteredException {
         return sys.getProduto(nome, empresa, atributo);
     }
 
-    public String listarProdutos(int empresa) throws UnregisteredCompanyException {
+    public String listarProdutos(int empresa) throws UnregisteredException {
         return sys.listarProdutos(empresa);
     }
 
     // User Story 4
+
+    public int criarPedido(int cliente, int empresa) throws Exception, WrongTypeUserException {
+        return sys.criarPedido(cliente, empresa);
+    }
+
+    public int getNumeroPedido(int cleinte, int empresa, int indice) {
+        return sys.getNumeroPedido(cleinte, empresa, indice);
+    }
+
+    public void adicionarProduto(int pedido, int produto) throws UnregisteredException, StatusException {
+        sys.adicionarProduto(pedido, produto);
+    }
+
+    public String getPedidos(int pedido, String atributo) throws InvalidAtributeException, UnregisteredException {
+        return sys.getPedidos(pedido, atributo);
+    }
+
+    public void fecharPedido(int pedido) throws UnregisteredException {
+        sys.fecharPedido(pedido);
+    }
+
+    public void removerProduto(int pedido, String produto) throws StatusException, UnregisteredException, InvalidAtributeException {
+        sys.removerProduto(pedido, produto);
+    }
 
 }

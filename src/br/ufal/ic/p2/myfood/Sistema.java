@@ -13,12 +13,15 @@ public class Sistema {
     public Persistencia<Usuario> persistenciaUsuario = new PersistenciaUsuario();
     public Persistencia<Empresa> persistenciaEmpresa = new PersistenciaEmpresa();
     public Persistencia<Produto> persistenciaProduto = new PersistenciaProduto();
+    public Persistencia<Pedido> persistenciaPedido = new PersistenciaPedido();
 
     public Sistema() {
         persistenciaUsuario.iniciar();
         persistenciaEmpresa.iniciar();
         persistenciaProduto.iniciar();
-        // Popular o ArrayList comp_list dos donos
+        persistenciaPedido.iniciar();
+
+        // Carregar o ArrayList comp_list dos donos
         for (Usuario usuario : persistenciaUsuario.listar()) {
             if (usuario instanceof Dono dono) {
                 List<Empresa> companiesOfUser = persistenciaEmpresa.listar()
@@ -29,8 +32,9 @@ public class Sistema {
                 dono.setComp_list(companiesOfUser);
             }
         }
+
+        // Carregar o ArrayList prod_list das empresas
         for (Empresa comp : persistenciaEmpresa.listar()) {
-           //TERMINAR ESSA PORRA AQUI!
             List<Produto> productsOfComp = persistenciaProduto.listar()
                     .stream()
                     .filter(produto -> produto.getId_dono() == comp.getId())
@@ -44,10 +48,21 @@ public class Sistema {
         persistenciaUsuario.limpar();
         persistenciaEmpresa.limpar();
         persistenciaProduto.limpar();
+        persistenciaPedido.limpar();
     }
 
     public void encerrarSistema() {
 
+    }
+
+    public List<Pedido> pedidosClienteEmpresa(int cliente, int empresa) {
+        String nomeCliente = persistenciaUsuario.buscar(cliente).getNome();
+        String nomeEmpresa = persistenciaEmpresa.buscar(empresa).getNome();
+
+        return persistenciaPedido.listar()
+                .stream()
+                .filter(pedido -> pedido.getCliente().getNome().equals(nomeCliente) && pedido.getEmpresa().getNome().equals(nomeEmpresa) && pedido.getEstado().equals("aberto"))
+                .toList();
     }
 
     private void testUserInvalid(String nome, String email, String senha, String endereco) throws UserCreationException {
@@ -103,11 +118,11 @@ public class Sistema {
         persistenciaUsuario.salvar(dono);
     }
 
-    public String getAtributoUsuario(int id, String atributo) throws UnregisteredUserException {
+    public String getAtributoUsuario(int id, String atributo) throws UnregisteredException {
         Usuario usuario = persistenciaUsuario.buscar(id);
 
         if (usuario == null)
-            throw new UnregisteredUserException();
+            throw new UnregisteredException("Usuario nao cadastrado.");
 
         return usuario.getAtributo(atributo);
     }
@@ -121,7 +136,7 @@ public class Sistema {
         throw new InvalidCredentialsException();
     }
 
-    // Este método está apenas criando restaurantes
+    //OBS: Este método está apenas criando restaurantes
     public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String tipoCozinha)
             throws CompanyCreationException, WrongTypeUserException{
 
@@ -164,10 +179,10 @@ public class Sistema {
         return "{" + tempDono.getComp_list().toString() + "}";
     }
 
-    public String getAtributoEmpresa(int empresa, String atributo) throws InvalidAtributeException, UnregisteredCompanyException {
+    public String getAtributoEmpresa(int empresa, String atributo) throws InvalidAtributeException, UnregisteredException {
         Empresa tempEmpresa = persistenciaEmpresa.buscar(empresa);
         if (tempEmpresa == null) {
-            throw new UnregisteredCompanyException();
+            throw new UnregisteredException("Empresa nao cadastrada");
         }
 
         if (atributo == null || atributo.isEmpty()) {
@@ -187,7 +202,7 @@ public class Sistema {
         return result;
     }
 
-    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, WrongTypeUserException, UnregisteredCompanyException, CompanyCreationException {
+    public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, WrongTypeUserException, UnregisteredException, CompanyCreationException {
         if (nome == null || nome.isEmpty()) {
             throw new CompanyCreationException("Nome invalido");
         }
@@ -203,12 +218,12 @@ public class Sistema {
 
         for (Empresa empresa : companiesOfUser) {
             if (!empresa.getNome().equals(nome)) {
-                throw new UnregisteredCompanyException("Nao existe empresa com esse nome");
+                throw new UnregisteredException("Nao existe empresa com esse nome");
             }
         }
 
         if(getIndexByNome(companiesOfUser, nome) == -1) {
-            throw new UnregisteredCompanyException("Nao existe empresa com esse nome");
+            throw new UnregisteredException("Nao existe empresa com esse nome");
         }
 
         if (indice >= companiesOfUser.size()) {
@@ -268,12 +283,15 @@ public class Sistema {
         if (prod == null) {
             throw new ProductCreationException("Produto nao cadastrado");
         }
-        persistenciaProduto.buscar(id_produto).setNome(nome);
-        persistenciaProduto.buscar(id_produto).setValor(valor);
-        persistenciaProduto.buscar(id_produto).setCategoria(categoria);
+
+        prod.setNome(nome);
+        prod.setValor(valor);
+        prod.setCategoria(categoria);
+
+        persistenciaProduto.editar(prod);
     }
 
-    public String getProduto(String nome, int empresa, String atributo) throws InvalidAtributeException, UnregisteredProductException {
+    public String getProduto(String nome, int empresa, String atributo) throws InvalidAtributeException, UnregisteredException {
         Empresa comp = persistenciaEmpresa.buscar(empresa);
         List<Produto> list = comp.getProd_list();
 
@@ -292,16 +310,118 @@ public class Sistema {
                 };
             }
         }
-        throw new UnregisteredProductException("Produto nao encontrado");
+        throw new UnregisteredException("Produto nao encontrado");
     }
 
-    public String listarProdutos(int empresa) throws UnregisteredCompanyException {
+    public String listarProdutos(int empresa) throws UnregisteredException {
         Empresa comp = persistenciaEmpresa.buscar(empresa);
 
         if (comp == null){
-            throw new UnregisteredCompanyException("Empresa nao encontrada");
+            throw new UnregisteredException("Empresa nao encontrada");
         }
 
         return "{" + comp.getProd_list() + "}";
+    }
+
+    public int criarPedido(int cliente, int empresa) throws Exception, WrongTypeUserException {
+        Usuario temp_cliente = persistenciaUsuario.buscar(cliente);
+        List<Pedido> pedidosClienteEmpresa = pedidosClienteEmpresa(cliente, empresa);
+
+        if (temp_cliente instanceof Dono){
+            throw new WrongTypeUserException("Dono de empresa nao pode fazer um pedido");
+        } else if (!pedidosClienteEmpresa.isEmpty()) {
+            throw new Exception("Nao e permitido ter dois pedidos em aberto para a mesma empresa");
+        } else {
+            Empresa temp_comp = persistenciaEmpresa.buscar(empresa);
+            Pedido ped = new Pedido(temp_cliente, temp_comp);
+            persistenciaPedido.salvar(ped);
+            return ped.getNumero();
+        }
+    }
+
+    public void adicionarProduto(int pedido, int produto) throws UnregisteredException, StatusException {
+        Pedido tempPedido = persistenciaPedido.buscar(pedido);
+
+        if (tempPedido == null) {
+            throw new UnregisteredException("Nao existe pedido em aberto");
+        }
+
+        if (!(tempPedido.getEstado().equals("aberto"))){
+            throw new StatusException("Nao e possivel adcionar produtos a um pedido fechado");
+        }
+
+        List<Produto> prodList = tempPedido.getEmpresa().getProd_list();
+        for (Produto prod : prodList) {
+            if (prod.getId() == produto) {
+                tempPedido.addProductToList(prod);
+                return;
+            }
+        }
+
+        throw new UnregisteredException("O produto nao pertence a essa empresa");
+    }
+
+    public int getNumeroPedido(int cliente, int empresa, int indice) {
+        String nomeCliente = persistenciaUsuario.buscar(cliente).getNome();
+        String nomeEmpresa = persistenciaEmpresa.buscar(empresa).getNome();
+
+        List<Pedido> pedidosClienteEmpresa = persistenciaPedido.listar()
+                        .stream()
+                        .filter(pedido -> pedido.getCliente().getNome().equals(nomeCliente) && pedido.getEmpresa().getNome().equals(nomeEmpresa))
+                        .toList();
+
+        return pedidosClienteEmpresa.get(indice).getNumero();
+    }
+
+    public String getPedidos(int pedido, String atributo) throws UnregisteredException, InvalidAtributeException {
+        if (atributo == null || atributo.isEmpty()) {
+            throw new InvalidAtributeException();
+        }
+
+        Pedido tempPedido = persistenciaPedido.buscar(pedido);
+
+        if (tempPedido.getNumero() == pedido) {
+            return switch (atributo) {
+                case "cliente" -> tempPedido.getCliente().getNome();
+                case "empresa" -> tempPedido.getEmpresa().getNome();
+                case "estado" -> tempPedido.getEstado();
+                case "produtos" -> "{" + tempPedido.getProd_list() + "}";
+                case "valor" -> String.format(Locale.US, "%.2f", tempPedido.getValor_total());
+                default -> throw new InvalidAtributeException("Atributo nao existe");
+            };
+        }
+        throw new UnregisteredException("Produto nao encontrado");
+    }
+
+    public void fecharPedido(int pedido) throws UnregisteredException {
+        Pedido tempPedido = persistenciaPedido.buscar(pedido);
+        if (tempPedido == null) {
+            throw new UnregisteredException("Pedido nao encontrado");
+        }
+
+        tempPedido.changeEstado();
+
+    }
+
+    public void removerProduto(int pedido, String produto) throws InvalidAtributeException, UnregisteredException, StatusException {
+        if (produto == null || produto.isEmpty()) {
+            throw new InvalidAtributeException("Produto invalido");
+        }
+
+        Pedido ped = persistenciaPedido.buscar(pedido);
+        if (ped.getEstado().equals("preparando")) {
+            throw new StatusException("Nao e possivel remover produtos de um pedido fechado");
+        }
+
+        List<Produto> listProd = ped.getProd_list();
+        for (Produto prod : listProd) {
+            if (prod.getNome().equals(produto)){
+                    ped.removeProductFromList(prod);
+                    persistenciaPedido.atualizar();
+                return;
+            }
+        }
+
+        throw new UnregisteredException("Produto nao encontrado");
     }
 }

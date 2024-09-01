@@ -38,8 +38,14 @@ public class PersistenciaProduto implements Persistencia<Produto> {
 
     @Override
     public void editar(Produto novo_produto) {
-        prod_list.set(novo_produto.getId(), novo_produto);
-        controle.SerializarXML(prod_list, arquivo);
+        for (int i = 0; i < prod_list.size(); i++) {
+            Produto produtoExistente = prod_list.get(i);
+            if (produtoExistente.getId() == novo_produto.getId()) {
+                prod_list.set(i, novo_produto);
+                controle.SerializarXML(prod_list, arquivo);
+                return;
+            }
+        }
     }
 
     @Override
@@ -55,5 +61,10 @@ public class PersistenciaProduto implements Persistencia<Produto> {
     @Override
     public List<Produto> listar() {
         return prod_list;
+    }
+
+    @Override
+    public void atualizar() {
+        controle.SerializarXML(prod_list, arquivo);
     }
 }
