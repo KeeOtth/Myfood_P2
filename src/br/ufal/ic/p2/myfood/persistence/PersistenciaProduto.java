@@ -1,4 +1,4 @@
-package br.ufal.ic.p2.myfood.models;
+package br.ufal.ic.p2.myfood.persistence;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.Produto;
@@ -10,8 +10,11 @@ public class PersistenciaProduto implements Persistencia<Produto> {
 
     private List<Produto> prod_list = new ArrayList<>();
     private SerializacaoXML controle = new SerializacaoXML();
-    private final String arquivo = "produtos.xml";
+    private final String arquivo = "xml/produtos.xml";
 
+    /**
+     *  Desserializa o arquivo XML do Produto e guardar na memória
+     */
     @Override
     public void iniciar() {
         prod_list = controle.DesserializarXML(prod_list, arquivo);

@@ -222,7 +222,7 @@ public class Sistema {
             }
         }
 
-        if (!(persistenciaUsuario.buscar(dono) instanceof Dono)) {
+        if (!(persistenciaUsuario.buscar(dono).getClass().getSimpleName().equals("Dono"))) {
             throw new WrongTypeUserException();
         }
 
@@ -244,10 +244,11 @@ public class Sistema {
      * @throws WrongTypeUserException Retorna erro, caso o id passado não seja do tipo Dono
      */
     public String getEmpresasDoUsuario(int idDono) throws WrongTypeUserException {
-        if (!(persistenciaUsuario.buscar(idDono) instanceof Dono tempDono)) {
+        if (!(persistenciaUsuario.buscar(idDono).getClass().getSimpleName().equals("Dono"))) {
             throw new WrongTypeUserException();
         }
 
+        Dono tempDono = (Dono) persistenciaUsuario.buscar(idDono);
         return "{" + tempDono.getComp_list().toString() + "}";
     }
 
@@ -298,7 +299,7 @@ public class Sistema {
             throw new CompanyCreationException("Nome invalido");
         }
 
-        if (!(persistenciaUsuario.buscar(idDono) instanceof Dono)) {
+        if (!(persistenciaUsuario.buscar(idDono).getClass().getSimpleName().equals("Dono"))) {
             throw new WrongTypeUserException();
         }
 
@@ -471,10 +472,10 @@ public class Sistema {
         Usuario temp_cliente = persistenciaUsuario.buscar(idCliente);
         List<Pedido> pedidosClienteEmpresa = pedidosClienteEmpresa(idCliente, idEmpresa);
 
-        if (temp_cliente instanceof Dono){
+        if (temp_cliente.getClass().getSimpleName().equals("Dono")){
             throw new WrongTypeUserException("Dono de empresa nao pode fazer um pedido");
         } else if (!pedidosClienteEmpresa.isEmpty()) {
-            throw new Exception("Nao e permitido ter dois pedidos em aberto para a mesma empresa");
+            throw new OrderCreationException();
         } else {
             Empresa temp_comp = persistenciaEmpresa.buscar(idEmpresa);
             Pedido ped = new Pedido(temp_cliente, temp_comp);

@@ -1,4 +1,4 @@
-package br.ufal.ic.p2.myfood.models;
+package br.ufal.ic.p2.myfood.persistence;
 
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.Pedido;
@@ -10,7 +10,7 @@ public class PersistenciaPedido implements Persistencia<Pedido> {
 
     private List<Pedido> carrinho = new ArrayList<>();
     private SerializacaoXML controle = new SerializacaoXML();
-    private final String arquivo = "pedidos.xml";
+    private final String arquivo = "xml/pedidos.xml";
 
     @Override
     public void iniciar() {
