@@ -1,5 +1,7 @@
 # Repositório para versionamento do projeto de P2 (Programação Orientada a Objetos) Myfood.
-
+Alunos:
+- Beatriz Rodrigues Silva
+- Gabriel Gomes de Oliveira
 # Relatório
 
 
