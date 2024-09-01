@@ -44,6 +44,13 @@ Alunos:
   Foram criados métodos de persistência para cada uma das classes principais descritas acima, esses métodos são **PersistenciaUsuario**, **PersistenciaEmpresa**, **PersistenciaProduto** e **PersistenciaPedido**, todas implementam a interface **_Persistencia_**, criada para garantir que tais métodos possuam o mínimo necessário para gerenciamento das estruturas de persistência, isso inclui métodos como _salvar_, _iniciar_, _remover_, _buscar_, _listar_, além de outros métodos que usarão a classe **_SerializacaoXML_** como controle para serializar os dados para xml e também desserializá-los para abastecimento das estruturas de persistência.
   Esses métodos geram os arquivos onde ficarão armazenados os dados e, após a limpeza das estruturas da memória da máquina, eles serão responsáveis por recuperar esses dados, interpretá-los, e alimentar as estruturas novamente com a informação a ser usada pelo sistema.
 
+## PADRÕES DE PROJETO
+
+#### Facade
+- Fornece uma interface unificada para um conjunto de interfaces em um subsistema, através dessa interface "Superior" ela se torna a mais simples de utilizar.
+- Permite a interação com o sistema de forma unificada.
+- Atende à oportunidade da necessidade de interação com o sistema em um nível mais alto.
+- A Facade recebe os comandos do EasyAccept e chama os métodos no sistema.
 
 ## DISCUSSÃO
   Este tópico tem como objetivo exclarecer algumas dúvidas nossas e possívelmente do leitor quanto a escolhas no projeto para essa primeira parte
