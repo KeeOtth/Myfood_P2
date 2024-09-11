@@ -2,7 +2,7 @@
 
 # Relatório
 Alunos:
-- Beatriz Rodrigues Silva
+- Beatriz Rodrigues Cavalcante 
 - Gabriel Gomes de Oliveira
 
 
