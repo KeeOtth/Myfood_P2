@@ -53,7 +53,7 @@ Alunos:
 - A Facade recebe os comandos do EasyAccept e chama os métodos no sistema.
 
 ## DISCUSSÃO
-  Este tópico tem como objetivo exclarecer algumas dúvidas nossas e possívelmente do leitor quanto a escolhas no projeto para essa primeira parte
+  Este tópico tem como objetivo esclarecer algumas dúvidas nossas e possívelmente do leitor quanto a escolhas no projeto para essa primeira parte
 
 #### Sobre as classes:
 Pode ser incômodo e talvez incorreto não termos uma classe cliente, eu disse préviamente que inicialmente tínhamos uma más optamos por remover, o motivo é que não há uma distinção entre cliente e a classe base usuário descrita explicitamente na declaração das classes na us1_1 nem nas subsequentes, por motivos de "conveniência" isso nos motivou a remover a classe, no entanto percebemos posteriormente que isso seria ruim para a organização geral do projeto e também seria problemático pois gera complicações que pretendo explicar em tópicos a seguir.
