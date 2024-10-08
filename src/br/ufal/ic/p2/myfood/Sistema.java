@@ -3,7 +3,10 @@ package br.ufal.ic.p2.myfood;
 import br.ufal.ic.p2.myfood.exceptions.*;
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.*;
-import br.ufal.ic.p2.myfood.persistence.*;
+import br.ufal.ic.p2.myfood.persistence.PersistenciaEmpresa;
+import br.ufal.ic.p2.myfood.persistence.PersistenciaPedido;
+import br.ufal.ic.p2.myfood.persistence.PersistenciaProduto;
+import br.ufal.ic.p2.myfood.persistence.PersistenciaUsuario;
 
 import java.util.List;
 import java.util.Locale;
@@ -200,8 +203,8 @@ public class Sistema {
      * @param endereco O endereco da empresa
      * @param tipoCozinha O estilo de comida ofertada pelo restaurante
      * @return O Id da empresa
-     * @throws CompanyCreationException
-     * @throws WrongTypeUserException
+     * @throws CompanyCreationException  Retorna erro caso os dados informados sejam inválidos
+     * @throws WrongTypeUserException Retorna erro caso o id informado não seja do tipo Dono
      */
     public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String tipoCozinha) throws CompanyCreationException, WrongTypeUserException{
 
@@ -447,7 +450,7 @@ public class Sistema {
      * Retorna uma String com todos os produtos de uma empresa
      * @param idEmpresa O id da empresa que deseja consultar
      * @return Uma String contendo a lista dos produtos de uma empresa
-     * @throws UnregisteredException
+     * @throws UnregisteredException retorna um erro caso o usuario não esteja cadastrado
      */
     public String listarProdutos(int idEmpresa) throws UnregisteredException {
         Empresa comp = persistenciaEmpresa.buscar(idEmpresa);
@@ -485,9 +488,9 @@ public class Sistema {
 
     /**
      * Adiciona um produto no pedido
-     * @param idPedido
-     * @param idProduto
-     * @throws UnregisteredException Retorna erro caso o produto desejado não pertença a empresa
+     * @param idPedido o id do pedido
+     * @param idProduto o id do produto
+     * @throws UnregisteredException Retorna erro caso o produto desejado não pertença à empresa
      * @throws StatusException Retorna erro caso o pedido esteja em aberto
      */
     public void adicionarProduto(int idPedido, int idProduto) throws UnregisteredException, StatusException {
@@ -514,8 +517,8 @@ public class Sistema {
 
     /**
      * Retorna o id de um pedido do historico de um cliente em uma empresa
-     * @param idCliente
-     * @param idEmpresa
+     * @param idCliente o id do cliente
+     * @param idEmpresa o id da empresa
      * @param indice O indice do pedido desejada na lista de pedidos do determinado cliente em uma determinada empresa
      * @return O id do pedido desejado
      */
@@ -533,11 +536,11 @@ public class Sistema {
 
     /**
      * Retorna o valor do atributo do pedido
-     * @param idPedido
-     * @param atributo
+     * @param idPedido o id do pedido
+     * @param atributo o nome do atributo desejado
      * @return O valor do atributo desejado
-     * @throws UnregisteredException
-     * @throws InvalidAtributeException
+     * @throws UnregisteredException retorna erro caso o produto não esteja cadastrado
+     * @throws InvalidAtributeException reotna erro caso o parametro 'atributo' seja inválido
      */
     public String getPedidos(int idPedido, String atributo) throws UnregisteredException, InvalidAtributeException {
         if (atributo == null || atributo.isEmpty()) {
@@ -561,7 +564,7 @@ public class Sistema {
 
     /**
      * Muda o status do pedido para "preparando"
-     * @param idPedido
+     * @param idPedido o id do pedido
      * @throws UnregisteredException Retorna erro caso o pedido informado não esteja cadastrado
      */
     public void fecharPedido(int idPedido) throws UnregisteredException {
@@ -576,7 +579,7 @@ public class Sistema {
 
     /**
      * Remove o produto em um pedido
-     * @param idPedido
+     * @param idPedido o id do pedido
      * @param produto O nome do produto
      * @throws InvalidAtributeException Retorna erro caso o atributo seja nulo ou vazio
      * @throws UnregisteredException Retorna erro caso o produto informado não está cadastrado
