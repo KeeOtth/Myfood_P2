@@ -8,6 +8,8 @@ import br.ufal.ic.p2.myfood.persistence.PersistenciaPedido;
 import br.ufal.ic.p2.myfood.persistence.PersistenciaProduto;
 import br.ufal.ic.p2.myfood.persistence.PersistenciaUsuario;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -195,9 +197,42 @@ public class Sistema {
         throw new InvalidCredentialsException();
     }
 
+    public void testHourInvalid(String time) throws CompanyCreationException {
+        if (time == null || time.isEmpty()) {
+            throw new CompanyCreationException("Formato de hora invalido");
+        }
+        if (time.length() != 5 || time.charAt(2) != ':') {
+            throw new CompanyCreationException("Formato de hora invalido");
+        }
+
+        // Hora
+        if ((time.charAt(0) == '0' || time.charAt(0) == '1')  && !(time.charAt(1) >= 48 && time.charAt(1) <= 57)){
+            throw new CompanyCreationException("Horarios invalido");
+        } else if (time.charAt(0) == '2' && !(time.charAt(1) >= 48 && time.charAt(1) <= 52)) {
+            throw new CompanyCreationException("Horarios invalidos");
+        }
+
+        // Minuto
+        if (!(time.charAt(3) >= 48 && time.charAt(3) <= 53)) {
+            throw new CompanyCreationException("Horarios invalidos");
+        }
+        if (!(time.charAt(4) >=48 && time.charAt(4) <= 57)) {
+            throw new CompanyCreationException("Horarios invalidos");
+        }
+
+    }
+
+    public static boolean isOpeningTimeBeforeClosingTime(String abre, String fecha) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime openingTime = LocalTime.parse(abre, formatter);
+        LocalTime closingTime = LocalTime.parse(fecha, formatter);
+
+        return openingTime.isBefore(closingTime);
+    }
+
     /**
-     * Cria um Empresa de um determinado tipo para um determinado Dono
-     * @param tipoEmpresa O tipo de empresa - Atualmente está apenas criando do tipo Restaurante
+     * Cria um Empresa do tipo Restaurante para um determinado Dono
+     * @param tipoEmpresa O tipo de empresa
      * @param dono O id do Dono da empresa
      * @param nome O nome da empresa
      * @param endereco O endereco da empresa
@@ -234,6 +269,60 @@ public class Sistema {
             persistenciaEmpresa.salvar(restaurante);
             tempDono.addComp_list(restaurante);
             return restaurante.getId();
+        }
+
+        return -1;
+    }
+
+    /**
+     * Cria um Empresa do tipo Mercado para um determinado Dono
+     * @param tipoEmpresa O tipo de empresa
+     * @param dono O id do Dono da empresa
+     * @param nome O nome da empresa
+     * @param endereco O endereco da empresa
+     * @param tipoMercado O estilo do mercado
+     * @return O id da empresa
+     * @throws CompanyCreationException  Retorna erro caso os dados informados sejam inválidos
+     * @throws WrongTypeUserException Retorna erro caso o id informado não seja do tipo Dono
+     */
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String abre, String fecha, String tipoMercado) throws CompanyCreationException, WrongTypeUserException{
+
+        if (nome == null || nome.isEmpty()) {
+            throw new CompanyCreationException("Nome invalido");
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new CompanyCreationException("Endereco da empresa invalido");
+        }
+
+        testHourInvalid(abre);
+        testHourInvalid(fecha);
+        if (!isOpeningTimeBeforeClosingTime(abre, fecha)){
+            throw new CompanyCreationException("Horarios invalidos");
+        }
+
+        if (tipoEmpresa == null || tipoEmpresa.isEmpty()) {
+            throw new CompanyCreationException("Tipo de empresa invalido");
+        }
+
+        for (Empresa empresa : persistenciaEmpresa.listar()) {
+            if (empresa.getNome().equals(nome) && empresa.getDono().getId() != dono) {
+                throw new CompanyCreationException("Empresa com esse nome ja existe");
+            }
+            if (empresa.getNome().equals(nome) && empresa.getEndereco().equals(endereco)) {
+                throw new CompanyCreationException("Proibido cadastrar duas empresas com o mesmo nome e local");
+            }
+        }
+
+        if (!(persistenciaUsuario.buscar(dono).getClass().getSimpleName().equals("Dono"))) {
+            throw new WrongTypeUserException();
+        }
+
+        if (tipoEmpresa.equals("mercado")) {
+            Dono tempDono = (Dono) persistenciaUsuario.buscar(dono);
+            Mercado mercado = new Mercado(nome, endereco, tempDono, tipoMercado, abre, fecha);
+            persistenciaEmpresa.salvar(mercado);
+            tempDono.addComp_list(mercado);
+            return mercado.getId();
         }
 
         return -1;

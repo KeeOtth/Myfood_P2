@@ -3,6 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/Main.java" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/br/ufal/ic/p2/myfood/Facade.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/br/ufal/ic/p2/myfood/Sistema.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/br/ufal/ic/p2/myfood/models/Empresa.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/br/ufal/ic/p2/myfood/models/Restaurante.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/tests/us1_1.txt" charset="ISO-8859-1" />
   </component>
 </project>
