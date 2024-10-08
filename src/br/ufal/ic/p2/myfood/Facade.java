@@ -95,8 +95,12 @@ public class Facade {
 
     // User Story 5
 
-    public int criarEmpresa (String tipoEmpresa, int dono, String nome, String endereco, String abre, String fecha, String tipoMercado) throws CompanyCreationException, WrongTypeUserException{
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String abre, String fecha, String tipoMercado) throws CompanyCreationException, WrongTypeUserException{
         return sys.criarEmpresa(tipoEmpresa, dono, nome, endereco, abre, fecha, tipoMercado);
+    }
+
+    public void alterarFuncionamento(int mercado, String abre, String fecha) throws CompanyCreationException {
+        sys.alterarFuncionamento(mercado, abre, fecha);
     }
 
 }

@@ -41,5 +41,20 @@ public class Mercado extends Empresa{
         this.fecha = fecha;
     }
 
+    /**
+     * Retorna o valor do atributo desejado da classe
+     * @param atributo o nome do atributo desejado
+     * @return Uma 'string' com o valor do atributo desejado
+     */
+    @Override
+    public String getAtributo(String atributo) {
+        return switch (atributo) {
+            case "tipoMercado" -> tipoMercado;
+            case "abre" -> abre;
+            case "fecha" -> fecha;
+            default -> super.getAtributo(atributo);
+        };
+
+    }
 
 }

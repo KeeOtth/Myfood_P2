@@ -74,10 +74,10 @@ public class Sistema {
     }
 
     /**
-     * Retorna a lista de Pedidos de um Cliente em uma determinada empresa
+     * Retorna a lista de Pedidos de um Cliente numa determinada empresa
      * @param idCliente O id do cliente
      * @param idEmpresa O id da empresa
-     * @return Os pedidos de um Cliente em uma determinada Empresa
+     * @return Os pedidos de um Cliente numa determinada Empresa
      */
     public List<Pedido> pedidosClienteEmpresa(int idCliente, int idEmpresa) {
         String nomeCliente = persistenciaUsuario.buscar(idCliente).getNome();
@@ -198,7 +198,9 @@ public class Sistema {
     }
 
     public void testHourInvalid(String time) throws CompanyCreationException {
-        if (time == null || time.isEmpty()) {
+        if (time == null) {
+            throw new CompanyCreationException("Horario invalido");
+        } else if (time.isEmpty()){
             throw new CompanyCreationException("Formato de hora invalido");
         }
         if (time.length() != 5 || time.charAt(2) != ':') {
@@ -293,15 +295,17 @@ public class Sistema {
         if (endereco == null || endereco.isEmpty()) {
             throw new CompanyCreationException("Endereco da empresa invalido");
         }
+        if (tipoMercado == null || tipoMercado.isEmpty()) {
+            throw new CompanyCreationException("Tipo de mercado invalido");
+        }
+        if (tipoEmpresa == null || tipoEmpresa.isEmpty()) {
+            throw new CompanyCreationException("Tipo de empresa invalido");
+        }
 
         testHourInvalid(abre);
         testHourInvalid(fecha);
         if (!isOpeningTimeBeforeClosingTime(abre, fecha)){
             throw new CompanyCreationException("Horarios invalidos");
-        }
-
-        if (tipoEmpresa == null || tipoEmpresa.isEmpty()) {
-            throw new CompanyCreationException("Tipo de empresa invalido");
         }
 
         for (Empresa empresa : persistenciaEmpresa.listar()) {
@@ -353,6 +357,7 @@ public class Sistema {
      */
     public String getAtributoEmpresa(int idEmpresa, String atributo) throws InvalidAtributeException, UnregisteredException {
         Empresa tempEmpresa = persistenciaEmpresa.buscar(idEmpresa);
+
         if (tempEmpresa == null) {
             throw new UnregisteredException("Empresa nao cadastrada");
         }
@@ -389,6 +394,9 @@ public class Sistema {
         if (nome == null || nome.isEmpty()) {
             throw new CompanyCreationException("Nome invalido");
         }
+        if (indice < 0) {
+            throw new OutofBoundsException("Indice invalido");
+        }
 
         if (!(persistenciaUsuario.buscar(idDono).getClass().getSimpleName().equals("Dono"))) {
             throw new WrongTypeUserException();
@@ -411,8 +419,6 @@ public class Sistema {
 
         if (indice >= companiesOfUser.size()) {
             throw new OutofBoundsException();
-        } else if (indice < 0) {
-            throw new OutofBoundsException("Indice invalido");
         }
 
         return companiesOfUser.get(indice).getId();
@@ -431,6 +437,28 @@ public class Sistema {
             }
         }
         return -1;  // Retorna -1 se não encontrar
+    }
+
+    /**
+     * Muda o horario de funcionamento de uma empresa
+     * @param idEmpresa O id da empresa
+     * @param abre O horario que a empresa abre
+     * @param fecha O horario que a empresa fecha
+     */
+    public void alterarFuncionamento(int idEmpresa, String abre, String fecha) throws CompanyCreationException {
+        testHourInvalid(abre);
+        testHourInvalid(fecha);
+        if (!isOpeningTimeBeforeClosingTime(abre, fecha)){
+            throw new CompanyCreationException("Horarios invalidos");
+        }
+
+        if(!(persistenciaEmpresa.buscar(idEmpresa).getClass().getSimpleName().equals("Mercado"))){
+            throw new CompanyCreationException("Nao e um mercado valido");
+        } else {
+            Mercado compMercado = (Mercado) persistenciaEmpresa.buscar(idEmpresa);
+            compMercado.setAbre(abre);
+            compMercado.setFecha(fecha);
+        }
     }
 
     /**

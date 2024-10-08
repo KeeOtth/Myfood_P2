@@ -62,6 +62,7 @@ public class Empresa {
             case "id" -> String.valueOf(id);
             case "nome" -> nome;
             case "endereco" -> endereco;
+            case "dono" -> dono.getNome();
             default -> null;
         };
     }
