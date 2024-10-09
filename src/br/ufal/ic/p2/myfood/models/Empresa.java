@@ -10,6 +10,7 @@ public class Empresa {
     private String endereco;
     private Dono dono;
     private List<Produto> prod_list;
+    private List<Entregador> entregador_list;
 
     // O construtor vazio é necessário para a serialização e desserialização
     public Empresa() {
@@ -21,6 +22,7 @@ public class Empresa {
         this.endereco = endereco;
         this.dono = dono;
         prod_list = new ArrayList<>();
+        entregador_list = new ArrayList<>();
     }
 
     // Getters e Setters
@@ -77,6 +79,18 @@ public class Empresa {
 
     public void addProd_list(Produto produto){
         this.prod_list.add(produto);
+    }
+
+    public List<Entregador> getEntregador_list() {
+        return entregador_list;
+    }
+
+    public void setEntregador_list(List<Entregador> entregador_list) {
+        this.entregador_list = entregador_list;
+    }
+
+    public void addEntregador_list(Entregador entregador){
+        this.entregador_list.add(entregador);
     }
 
     @Override

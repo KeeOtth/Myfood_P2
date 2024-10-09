@@ -21,6 +21,9 @@
           <void property="endereco">
            <string>Rua Segura N 123</string>
           </void>
+          <void property="entregador_list">
+           <object class="java.util.ArrayList"/>
+          </void>
           <void property="fecha">
            <string>21:00</string>
           </void>
@@ -50,7 +53,7 @@
        <string>Rua Exemplo N 321</string>
       </void>
       <void property="id">
-       <int>1</int>
+       <int>2</int>
       </void>
       <void property="nome">
        <string>CarlosDono</string>
@@ -62,6 +65,9 @@
     </void>
     <void property="endereco">
      <string>Rua Segura N 987</string>
+    </void>
+    <void property="entregador_list">
+     <object class="java.util.ArrayList"/>
     </void>
     <void property="id">
      <int>1</int>
@@ -93,6 +99,9 @@
     </void>
     <void property="endereco">
      <string>Rua Segura N 123</string>
+    </void>
+    <void property="entregador_list">
+     <object class="java.util.ArrayList"/>
     </void>
     <void property="id">
      <int>3</int>

@@ -166,6 +166,36 @@ public class Sistema {
     }
 
     /**
+     * Cria um usuário do tipo Entregador
+     * @param nome O nome do entregador
+     * @param email O email da conta do entregador
+     * @param senha A senha da conta do entregador
+     * @param endereco O endereco do entregador
+     * @param veiculo O tipo do veiculo do entregador
+     * @param placa A placa do veiculo do entregador
+     * @throws UserCreationException Retorna erro caso algum desses atributos forem nulos ou vazio, ou caso já exista uma conta
+     */
+    public void criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws UserCreationException {
+        testUserInvalid(nome, email, senha, endereco);
+
+        if (veiculo == null || veiculo.isEmpty()) {
+            throw new UserCreationException("Veiculo invalido");
+        }
+        if (placa == null || placa.isEmpty()) {
+            throw new UserCreationException("Placa invalido");
+        }
+
+        for (Usuario user : persistenciaUsuario.listar()) {
+            if (user.getEmail().equals(email)) {
+                throw new UserCreationException("Conta com ese email ja existe");
+            }
+        }
+
+        Entregador entregador = new Entregador(nome, email, senha, endereco, veiculo, placa);
+        persistenciaUsuario.salvar(entregador);
+    }
+
+    /**
      * Retorna uma string contendo o valor do atributo informado
      * @param id O id do usuário
      * @param atributo O nome do atributo que deseja
@@ -197,6 +227,50 @@ public class Sistema {
         throw new InvalidCredentialsException();
     }
 
+    /**
+     * Cadastra um entregador a uma empresa a qual ele faz entregas.
+     * @param idEmpresa Um inteiro contendo o id da empresa
+     * @param idEntregador Um inteiro contendo o id do entregador
+     * @throws WrongTypeUserException Retorna um erro, caso as credenciais não estejam corretas
+     */
+    public void cadastrarEntregador(int idEmpresa, int idEntregador) throws WrongTypeUserException, UserCreationException {
+        Empresa empresa = persistenciaEmpresa.buscar(idEmpresa);
+        Usuario user = persistenciaUsuario.buscar(idEntregador);
+
+        if (!(persistenciaUsuario.buscar(idEntregador).getClass().getSimpleName().equals("Entregador"))) {
+            throw new WrongTypeUserException("Usuario nao e um entregador");
+        }
+
+        for (Entregador entregador : empresa.getEntregador_list()) {
+           if (entregador.getId() == user.getId()) {
+               throw new UserCreationException("O entregador já está cadastrado na empresa.");
+           }
+        }
+
+        empresa.addEntregador_list((Entregador) user);
+    }
+
+    /**
+     * Retorna uma String com todos os entregadores de uma empresa
+     * @param idEmpresa O id da empresa que deseja consultar
+     * @return Uma String contendo a lista dos entregadores de uma empresa
+     * @throws UnregisteredException retorna um erro caso o usuario não esteja cadastrado
+     */
+    public String getEntregadores(int idEmpresa) throws UnregisteredException {
+        Empresa comp = persistenciaEmpresa.buscar(idEmpresa);
+
+        if (comp == null){
+            throw new UnregisteredException("Empresa nao encontrada");
+        }
+
+        return "{" + comp.getEntregador_list() + "}";
+    }
+
+    /**
+     * Valida as informações sobre Hora
+     * @param time Uma String contendo a hora
+     * @throws CompanyCreationException Retorna um erro, caso as informações não estejam corretas
+     */
     public void testHourInvalid(String time) throws CompanyCreationException {
         if (time == null) {
             throw new CompanyCreationException("Horario invalido");
@@ -224,6 +298,12 @@ public class Sistema {
 
     }
 
+    /**
+     * Valida se o horário de abertura da loja é antes da de fechamento
+     * @param abre Uma String contendo a hora de abertura da loja
+     * @param fecha Uma String contendo a hora de fechamento da loja
+     * @return Retorna um booleano
+     */
     public static boolean isOpeningTimeBeforeClosingTime(String abre, String fecha) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime openingTime = LocalTime.parse(abre, formatter);
@@ -379,7 +459,6 @@ public class Sistema {
         return -1;
     }
 
-
     /**
      * Retorna a lista de empresas de um Dono
      * @param idDono O id do usuário desejado
@@ -509,6 +588,17 @@ public class Sistema {
         compMercado.setFecha(fecha);
 
         persistenciaEmpresa.editar(compMercado);
+    }
+
+
+    /**
+     * Retorna uma String com todos os produtos de uma empresa
+     * @param idEntregador O id da empresa que deseja consultar
+     * @return Uma String contendo a lista dos produtos de uma empresa
+     * @throws UnregisteredException retorna um erro caso o usuario não esteja cadastrado
+     */
+    public String getEmpresas(int idEntregador) throws UnregisteredException {
+
     }
 
     /**

@@ -109,4 +109,16 @@ public class Facade {
         return sys.criarEmpresa(tipoEmpresa, dono, nome, endereco, aberto24Horas, numeroFuncionarios);
     }
 
+    // User Story 7
+    public void criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws UserCreationException{
+        sys.criarUsuario(nome, email, senha, endereco, veiculo, placa);
+    }
+
+    public void cadastrarEntregador(int empresa, int entregador) throws UserCreationException, WrongTypeUserException {
+        sys.cadastrarEntregador(empresa, entregador);
+    }
+
+    public String getEntregadores(int empresa) throws UnregisteredException {
+        return sys.getEntregadores(empresa);
+    }
 }
