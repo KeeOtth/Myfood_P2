@@ -45,7 +45,14 @@ public class PersistenciaEmpresa implements Persistencia<Empresa> {
 
     @Override
     public void editar(Empresa nova_empresa){
-
+        for (int i = 0; i < comp_list.size(); i++) {
+            Empresa empresaExistente = comp_list.get(i);
+            if (empresaExistente.getId() == nova_empresa.getId()) {
+                comp_list.set(i, nova_empresa);
+                controle.SerializarXML(comp_list, arquivo);
+                return;
+            }
+        }
     }
 
     @Override

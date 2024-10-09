@@ -199,7 +199,7 @@ public class Sistema {
 
     public void testHourInvalid(String time) throws CompanyCreationException {
         if (time == null) {
-            throw new CompanyCreationException("Horario invalido");
+            throw new CompanyCreationException("Horarios invalidos");
         } else if (time.isEmpty()){
             throw new CompanyCreationException("Formato de hora invalido");
         }
@@ -209,7 +209,7 @@ public class Sistema {
 
         // Hora
         if ((time.charAt(0) == '0' || time.charAt(0) == '1')  && !(time.charAt(1) >= 48 && time.charAt(1) <= 57)){
-            throw new CompanyCreationException("Horarios invalido");
+            throw new CompanyCreationException("Horarios invalidos");
         } else if (time.charAt(0) == '2' && !(time.charAt(1) >= 48 && time.charAt(1) <= 52)) {
             throw new CompanyCreationException("Horarios invalidos");
         }
@@ -454,11 +454,13 @@ public class Sistema {
 
         if(!(persistenciaEmpresa.buscar(idEmpresa).getClass().getSimpleName().equals("Mercado"))){
             throw new CompanyCreationException("Nao e um mercado valido");
-        } else {
-            Mercado compMercado = (Mercado) persistenciaEmpresa.buscar(idEmpresa);
-            compMercado.setAbre(abre);
-            compMercado.setFecha(fecha);
         }
+
+        Mercado compMercado = (Mercado) persistenciaEmpresa.buscar(idEmpresa);
+        compMercado.setAbre(abre);
+        compMercado.setFecha(fecha);
+
+        persistenciaEmpresa.editar(compMercado);
     }
 
     /**

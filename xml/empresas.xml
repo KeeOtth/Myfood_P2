@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="22.0.2" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="br.ufal.ic.p2.myfood.models.Mercado" id="Mercado0">
+    <void property="abre">
+     <string>07:30</string>
+    </void>
+    <void property="dono">
+     <object class="br.ufal.ic.p2.myfood.models.Dono" id="Dono0">
+      <void property="comp_list">
+       <object class="java.util.ArrayList">
+        <void method="add">
+         <object idref="Mercado0"/>
+        </void>
+        <void method="add">
+         <object class="br.ufal.ic.p2.myfood.models.Mercado" id="Mercado1">
+          <void property="abre">
+           <string>06:30</string>
+          </void>
+          <void property="dono">
+           <object idref="Dono0"/>
+          </void>
+          <void property="endereco">
+           <string>Rua Segura N 123</string>
+          </void>
+          <void property="fecha">
+           <string>23:59</string>
+          </void>
+          <void property="id">
+           <int>2</int>
+          </void>
+          <void property="nome">
+           <string>Conveniencias do Carlos</string>
+          </void>
+          <void property="prod_list">
+           <object class="java.util.ArrayList">
+            <void method="add">
+             <object class="br.ufal.ic.p2.myfood.models.Produto">
+              <void property="categoria">
+               <string>escolar</string>
+              </void>
+              <void property="id">
+               <int>4</int>
+              </void>
+              <void property="id_dono">
+               <int>2</int>
+              </void>
+              <void property="nome">
+               <string>Caneta</string>
+              </void>
+              <void property="valor">
+               <float>2.0</float>
+              </void>
+             </object>
+            </void>
+           </object>
+          </void>
+          <void property="tipoMercado">
+           <string>minimercado</string>
+          </void>
+         </object>
+        </void>
+        <void method="add">
+         <object class="br.ufal.ic.p2.myfood.models.Mercado" id="Mercado2">
+          <void property="abre">
+           <string>07:30</string>
+          </void>
+          <void property="dono">
+           <object idref="Dono0"/>
+          </void>
+          <void property="endereco">
+           <string>Rua Otima N 852</string>
+          </void>
+          <void property="fecha">
+           <string>21:00</string>
+          </void>
+          <void property="id">
+           <int>3</int>
+          </void>
+          <void property="nome">
+           <string>Mercado do Carlos</string>
+          </void>
+          <void property="prod_list">
+           <object class="java.util.ArrayList"/>
+          </void>
+          <void property="tipoMercado">
+           <string>atacadista</string>
+          </void>
+         </object>
+        </void>
+        <void method="add">
+         <object class="br.ufal.ic.p2.myfood.models.Restaurante" id="Restaurante0">
+          <void property="dono">
+           <object idref="Dono0"/>
+          </void>
+          <void property="endereco">
+           <string>Rua Segura N 987</string>
+          </void>
+          <void property="id">
+           <int>5</int>
+          </void>
+          <void property="nome">
+           <string>Pastelaria do Carlos</string>
+          </void>
+          <void property="prod_list">
+           <object class="java.util.ArrayList"/>
+          </void>
+          <void property="tipoCozinha">
+           <string>brasileira</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void property="cpf">
+       <string>544.732.410-68</string>
+      </void>
+      <void property="email">
+       <string>carlos@ufal.com.br</string>
+      </void>
+      <void property="endereco">
+       <string>Rua Exemplo N 321</string>
+      </void>
+      <void property="id">
+       <int>2</int>
+      </void>
+      <void property="nome">
+       <string>CarlosDono</string>
+      </void>
+      <void property="senha">
+       <string>123senha</string>
+      </void>
+     </object>
+    </void>
+    <void property="endereco">
+     <string>Rua Segura N 123</string>
+    </void>
+    <void property="fecha">
+     <string>21:00</string>
+    </void>
+    <void property="id">
+     <int>1</int>
+    </void>
+    <void property="nome">
+     <string>Mercado do Carlos</string>
+    </void>
+    <void property="prod_list">
+     <object class="java.util.ArrayList">
+      <void method="add">
+       <object class="br.ufal.ic.p2.myfood.models.Produto">
+        <void property="categoria">
+         <string>bebida</string>
+        </void>
+        <void property="id">
+         <int>1</int>
+        </void>
+        <void property="id_dono">
+         <int>1</int>
+        </void>
+        <void property="nome">
+         <string>Refrigerante</string>
+        </void>
+        <void property="valor">
+         <float>2.4</float>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="br.ufal.ic.p2.myfood.models.Produto">
+        <void property="categoria">
+         <string>limpeza</string>
+        </void>
+        <void property="id">
+         <int>2</int>
+        </void>
+        <void property="id_dono">
+         <int>1</int>
+        </void>
+        <void property="nome">
+         <string>Sabao</string>
+        </void>
+        <void property="valor">
+         <float>1.25</float>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="br.ufal.ic.p2.myfood.models.Produto">
+        <void property="categoria">
+         <string>verdura</string>
+        </void>
+        <void property="id">
+         <int>3</int>
+        </void>
+        <void property="id_dono">
+         <int>1</int>
+        </void>
+        <void property="nome">
+         <string>1kg Batatas</string>
+        </void>
+        <void property="valor">
+         <float>5.75</float>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void property="tipoMercado">
+     <string>supermercado</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object idref="Mercado1"/>
+  </void>
+  <void method="add">
+   <object idref="Mercado2"/>
+  </void>
+  <void method="add">
+   <object class="br.ufal.ic.p2.myfood.models.Mercado" id="Mercado3">
+    <void property="abre">
+     <string>05:25</string>
+    </void>
+    <void property="dono">
+     <object class="br.ufal.ic.p2.myfood.models.Dono">
+      <void property="comp_list">
+       <object class="java.util.ArrayList">
+        <void method="add">
+         <object idref="Mercado3"/>
+        </void>
+       </object>
+      </void>
+      <void property="cpf">
+       <string>544.732.410-68</string>
+      </void>
+      <void property="email">
+       <string>roberto@ufal.com.br</string>
+      </void>
+      <void property="endereco">
+       <string>Rua Exemplo N 321</string>
+      </void>
+      <void property="id">
+       <int>3</int>
+      </void>
+      <void property="nome">
+       <string>RobertoDono</string>
+      </void>
+      <void property="senha">
+       <string>123senha</string>
+      </void>
+     </object>
+    </void>
+    <void property="endereco">
+     <string>Rua Segura N 123</string>
+    </void>
+    <void property="fecha">
+     <string>22:00</string>
+    </void>
+    <void property="id">
+     <int>4</int>
+    </void>
+    <void property="nome">
+     <string>Mercado do Roberto</string>
+    </void>
+    <void property="prod_list">
+     <object class="java.util.ArrayList"/>
+    </void>
+    <void property="tipoMercado">
+     <string>supermercado</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object idref="Restaurante0"/>
+  </void>
+ </object>
+</java>
