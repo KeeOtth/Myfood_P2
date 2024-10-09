@@ -121,4 +121,8 @@ public class Facade {
     public String getEntregadores(int empresa) throws UnregisteredException {
         return sys.getEntregadores(empresa);
     }
+
+    public String getEmpresas(int entregador) throws WrongTypeUserException {
+        return sys.getEmpresas(entregador);
+    }
 }

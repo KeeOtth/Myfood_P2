@@ -33,3 +33,6 @@ expect "Farmacia do Carlos"  getPedidos pedido=${pe2} atributo="empresa"
 expect "aberto" getPedidos pedido=${pe2} atributo="estado"
 expect "{[Soro Fisiologico, Soro Fisiologico]}" getPedidos pedido=${pe2} atributo="produtos"
 expect "4.00" getPedidos pedido=${pe2} atributo="valor"
+
+encerrarSistema
+quit

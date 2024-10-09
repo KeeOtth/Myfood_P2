@@ -21,9 +21,6 @@
           <void property="endereco">
            <string>Rua Segura N 123</string>
           </void>
-          <void property="entregador_list">
-           <object class="java.util.ArrayList"/>
-          </void>
           <void property="fecha">
            <string>21:00</string>
           </void>
@@ -38,6 +35,31 @@
           </void>
           <void property="tipoMercado">
            <string>supermercado</string>
+          </void>
+         </object>
+        </void>
+        <void method="add">
+         <object class="br.ufal.ic.p2.myfood.models.Farmacia" id="Farmacia0">
+          <void property="NFuncionario">
+           <int>2</int>
+          </void>
+          <void property="aberto24">
+           <boolean>true</boolean>
+          </void>
+          <void property="dono">
+           <object idref="Dono0"/>
+          </void>
+          <void property="endereco">
+           <string>Rua Segura N 123</string>
+          </void>
+          <void property="id">
+           <int>3</int>
+          </void>
+          <void property="nome">
+           <string>Farmacia</string>
+          </void>
+          <void property="prod_list">
+           <object class="java.util.ArrayList"/>
           </void>
          </object>
         </void>
@@ -66,9 +88,6 @@
     <void property="endereco">
      <string>Rua Segura N 987</string>
     </void>
-    <void property="entregador_list">
-     <object class="java.util.ArrayList"/>
-    </void>
     <void property="id">
      <int>1</int>
     </void>
@@ -87,32 +106,7 @@
    <object idref="Mercado0"/>
   </void>
   <void method="add">
-   <object class="br.ufal.ic.p2.myfood.models.Farmacia">
-    <void property="NFuncionario">
-     <int>2</int>
-    </void>
-    <void property="aberto24">
-     <boolean>true</boolean>
-    </void>
-    <void property="dono">
-     <object idref="Dono0"/>
-    </void>
-    <void property="endereco">
-     <string>Rua Segura N 123</string>
-    </void>
-    <void property="entregador_list">
-     <object class="java.util.ArrayList"/>
-    </void>
-    <void property="id">
-     <int>3</int>
-    </void>
-    <void property="nome">
-     <string>Farmacia</string>
-    </void>
-    <void property="prod_list">
-     <object class="java.util.ArrayList"/>
-    </void>
-   </object>
+   <object idref="Farmacia0"/>
   </void>
  </object>
 </java>

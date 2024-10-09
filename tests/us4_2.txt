@@ -21,3 +21,6 @@ expect "Pastelaria do Roberto"  getPedidos pedido=${pe2} atributo="empresa"
 expect "aberto"  getPedidos pedido=${pe2} atributo="estado"
 expect "{[Pastel de queijo, Pastel de queijo]}" getPedidos pedido=${pe2} atributo="produtos"
 expect "10.00"  getPedidos pedido=${pe2} atributo="valor"
+
+encerrarSistema
+quit
