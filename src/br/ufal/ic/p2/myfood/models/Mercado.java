@@ -54,7 +54,6 @@ public class Mercado extends Empresa{
             case "fecha" -> fecha;
             default -> super.getAtributo(atributo);
         };
-
     }
 
 }

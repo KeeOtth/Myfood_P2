@@ -103,4 +103,10 @@ public class Facade {
         sys.alterarFuncionamento(mercado, abre, fecha);
     }
 
+    // User Story 6
+
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios) throws CompanyCreationException, WrongTypeUserException{
+        return sys.criarEmpresa(tipoEmpresa, dono, nome, endereco, aberto24Horas, numeroFuncionarios);
+    }
+
 }

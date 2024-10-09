@@ -199,7 +199,7 @@ public class Sistema {
 
     public void testHourInvalid(String time) throws CompanyCreationException {
         if (time == null) {
-            throw new CompanyCreationException("Horarios invalidos");
+            throw new CompanyCreationException("Horario invalido");
         } else if (time.isEmpty()){
             throw new CompanyCreationException("Formato de hora invalido");
         }
@@ -209,17 +209,17 @@ public class Sistema {
 
         // Hora
         if ((time.charAt(0) == '0' || time.charAt(0) == '1')  && !(time.charAt(1) >= 48 && time.charAt(1) <= 57)){
-            throw new CompanyCreationException("Horarios invalidos");
+            throw new CompanyCreationException("Horario invalido");
         } else if (time.charAt(0) == '2' && !(time.charAt(1) >= 48 && time.charAt(1) <= 52)) {
-            throw new CompanyCreationException("Horarios invalidos");
+            throw new CompanyCreationException("Horario invalido");
         }
 
         // Minuto
         if (!(time.charAt(3) >= 48 && time.charAt(3) <= 53)) {
-            throw new CompanyCreationException("Horarios invalidos");
+            throw new CompanyCreationException("Horario invalido");
         }
         if (!(time.charAt(4) >=48 && time.charAt(4) <= 57)) {
-            throw new CompanyCreationException("Horarios invalidos");
+            throw new CompanyCreationException("Horario invalido");
         }
 
     }
@@ -305,7 +305,7 @@ public class Sistema {
         testHourInvalid(abre);
         testHourInvalid(fecha);
         if (!isOpeningTimeBeforeClosingTime(abre, fecha)){
-            throw new CompanyCreationException("Horarios invalidos");
+            throw new CompanyCreationException("Horario invalido");
         }
 
         for (Empresa empresa : persistenciaEmpresa.listar()) {
@@ -331,6 +331,54 @@ public class Sistema {
 
         return -1;
     }
+
+    /**
+     * Cria um Empresa do tipo Farmacia para um determinado Dono
+     * @param tipoEmpresa O tipo de empresa
+     * @param dono O id do Dono da empresa
+     * @param nome O nome da empresa
+     * @param endereco O endereco da empresa
+     * @param aberto24H Informa se a farmácia funciona 24h ou não
+     * @param nFuncionarios A quantidade de funcionários que trabalha na farmácia
+     * @return O id da empresa
+     * @throws CompanyCreationException  Retorna erro caso os dados informados sejam inválidos
+     * @throws WrongTypeUserException Retorna erro caso o id informado não seja do tipo Dono
+     */
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, Boolean aberto24H, int nFuncionarios ) throws CompanyCreationException, WrongTypeUserException{
+        if (nome == null || nome.isEmpty()) {
+            throw new CompanyCreationException("Nome invalido");
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new CompanyCreationException("Endereco da empresa invalido");
+        }
+        if (tipoEmpresa == null || tipoEmpresa.isEmpty()) {
+            throw new CompanyCreationException("Tipo de empresa invalido");
+        }
+
+        for (Empresa empresa : persistenciaEmpresa.listar()) {
+            if (empresa.getNome().equals(nome) && empresa.getDono().getId() != dono) {
+                throw new CompanyCreationException("Empresa com esse nome ja existe");
+            }
+            if (empresa.getNome().equals(nome) && empresa.getEndereco().equals(endereco)) {
+                throw new CompanyCreationException("Proibido cadastrar duas empresas com o mesmo nome e local");
+            }
+        }
+
+        if (!(persistenciaUsuario.buscar(dono).getClass().getSimpleName().equals("Dono"))) {
+            throw new WrongTypeUserException();
+        }
+
+        if (tipoEmpresa.equals("farmacia")) {
+            Dono tempDono = (Dono) persistenciaUsuario.buscar(dono);
+            Farmacia farmacia = new Farmacia(nome, endereco, tempDono, aberto24H, nFuncionarios);
+            persistenciaEmpresa.salvar(farmacia);
+            tempDono.addComp_list(farmacia);
+            return farmacia.getId();
+        }
+
+        return -1;
+    }
+
 
     /**
      * Retorna a lista de empresas de um Dono
@@ -449,7 +497,7 @@ public class Sistema {
         testHourInvalid(abre);
         testHourInvalid(fecha);
         if (!isOpeningTimeBeforeClosingTime(abre, fecha)){
-            throw new CompanyCreationException("Horarios invalidos");
+            throw new CompanyCreationException("Horario invalido");
         }
 
         if(!(persistenciaEmpresa.buscar(idEmpresa).getClass().getSimpleName().equals("Mercado"))){
