@@ -55,16 +55,6 @@ public class Sistema {
 
             comp.setProd_list(productsOfComp);
         }
-
-        // Carregar o ArrayList entregador_list das empresas
-        /*for (Empresa comp : persistenciaEmpresa.listar()){
-            List<Entregador> deliveryOfComp = persistenciaUsuario.listar()
-                    .stream()
-                    .filter(delivery -> delivery)
-                    .toList();
-
-            comp.setEntregador_list(deliveryOfComp);
-        }*/
     }
 
     /**
@@ -854,6 +844,24 @@ public class Sistema {
     }
 
     /**
+     * Muda o status do pedido para "pronto"
+     * @param idPedido o id do pedido
+     * @throws UnregisteredException Retorna erro caso o pedido informado não esteja cadastrado
+     */
+    public void liberarPedido(int idPedido) throws UnregisteredException {
+        Pedido tempPedido = persistenciaPedido.buscar(idPedido);
+        if (tempPedido == null) {
+            throw new UnregisteredException("Pedido nao encontrado");
+        }
+
+        if (tempPedido.getEstado().equals("aberto")) {
+            throw new UnregisteredException("Nao e possivel liberar um produto que nao esta sendo preparado");
+        }
+
+        tempPedido.changeEstado();
+    }
+
+    /**
      * Remove o produto em um pedido
      * @param idPedido o id do pedido
      * @param produto O nome do produto
@@ -882,4 +890,14 @@ public class Sistema {
 
         throw new UnregisteredException("Produto nao encontrado");
     }
+
+    // Retorna o pedido mais antigo que esteja pronto,
+    // e que pertenca a uma empresa a qual o entregador trabalha.
+    // Pedidos de Farmacia sempre tem prioridade.
+    public int obterPedido(int idEntregador){
+
+    }
+
+
+
 }

@@ -125,4 +125,9 @@ public class Facade {
     public String getEmpresas(int entregador) throws WrongTypeUserException {
         return sys.getEmpresas(entregador);
     }
+
+    // User Story 8
+    public void liberarPedido(int numero) throws UnregisteredException {
+        sys.liberarPedido(numero);
+    }
 }

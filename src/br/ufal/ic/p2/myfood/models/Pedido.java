@@ -60,15 +60,15 @@ public class Pedido {
     }
 
     /**
-     * Muda o estado do pedido de 'aberto' para 'fechado'
+     * Muda o estado do pedido
      * @throws UnregisteredException Retorna erro caso o pedido não exista ou não esteja aberto
      */
     public void changeEstado() throws UnregisteredException {
-        if (this.estado.equals("aberto")){
-            this.estado = "preparando";
-        }
-        else {
-            throw new UnregisteredException("Este pedido nao esta aberto");
+        switch (this.estado) {
+            case "aberto" -> this.estado = "preparando";
+            case "preparando" -> this.estado = "pronto";
+            case "pronto" -> throw new UnregisteredException("Pedido ja liberado");
+            default -> throw new UnregisteredException("Este pedido nao esta aberto");
         }
     }
 
