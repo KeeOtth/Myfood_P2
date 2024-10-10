@@ -81,7 +81,7 @@ public class Empresa {
         this.prod_list.add(produto);
     }
 
-    public List<Entregador> getEntregadores() {
+    public List<Entregador> getEntregador_list() {
         return entregador_list;
     }
 

@@ -57,14 +57,14 @@ public class Sistema {
         }
 
         // Carregar o ArrayList entregador_list das empresas
-        for (Empresa comp : persistenciaEmpresa.listar()){
+        /*for (Empresa comp : persistenciaEmpresa.listar()){
             List<Entregador> deliveryOfComp = persistenciaUsuario.listar()
                     .stream()
-                    .filter()
+                    .filter(delivery -> delivery)
                     .toList();
 
             comp.setEntregador_list(deliveryOfComp);
-        }
+        }*/
     }
 
     /**
@@ -251,7 +251,7 @@ public class Sistema {
             throw new WrongTypeUserException("Usuario nao e um entregador");
         }
 
-        for (Entregador entregador : empresa.getEntregadores()) {
+        for (Entregador entregador : empresa.getEntregador_list()) {
            if (entregador.getId() == user.getId()) {
                throw new UserCreationException("O entregador já está cadastrado na empresa.");
            }
@@ -274,7 +274,7 @@ public class Sistema {
             throw new UnregisteredException("Empresa nao encontrada");
         }
 
-        return "{" + comp.getEntregadores() + "}";
+        return "{" + comp.getEntregador_list() + "}";
     }
 
     /**
@@ -315,12 +315,12 @@ public class Sistema {
      * @param fecha Uma String contendo a hora de fechamento da loja
      * @return Retorna um booleano
      */
-    public static boolean isOpeningTimeBeforeClosingTime(String abre, String fecha) {
+    public static boolean isCloseBeforeOpen(String abre, String fecha) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime openingTime = LocalTime.parse(abre, formatter);
         LocalTime closingTime = LocalTime.parse(fecha, formatter);
 
-        return openingTime.isBefore(closingTime);
+        return !openingTime.isBefore(closingTime);
     }
 
     /**
@@ -395,7 +395,7 @@ public class Sistema {
 
         testHourInvalid(abre);
         testHourInvalid(fecha);
-        if (!isOpeningTimeBeforeClosingTime(abre, fecha)){
+        if (isCloseBeforeOpen(abre, fecha)){
             throw new CompanyCreationException("Horario invalido");
         }
 
@@ -586,7 +586,7 @@ public class Sistema {
     public void alterarFuncionamento(int idEmpresa, String abre, String fecha) throws CompanyCreationException {
         testHourInvalid(abre);
         testHourInvalid(fecha);
-        if (!isOpeningTimeBeforeClosingTime(abre, fecha)){
+        if (isCloseBeforeOpen(abre, fecha)){
             throw new CompanyCreationException("Horario invalido");
         }
 
@@ -614,7 +614,7 @@ public class Sistema {
 
         List<Empresa> companiesOfDeliverer = persistenciaEmpresa.listar()
                 .stream()
-                .filter(company -> company.getEntregadores().stream().anyMatch(delivery -> delivery.getId() == idEntregador))
+                .filter(company -> company.getEntregador_list().stream().anyMatch(delivery -> delivery.getId() == idEntregador))
                 .toList();
 
         return "{" + companiesOfDeliverer + "}";

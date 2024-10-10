@@ -21,6 +21,35 @@
           <void property="endereco">
            <string>Rua Segura N 123</string>
           </void>
+          <void property="entregador_list">
+           <object class="java.util.ArrayList">
+            <void method="add">
+             <object class="br.ufal.ic.p2.myfood.models.Entregador" id="Entregador0">
+              <void property="email">
+               <string>rodrigo@ufal.com.br</string>
+              </void>
+              <void property="endereco">
+               <string>Rua Exemplo N 123</string>
+              </void>
+              <void property="id">
+               <int>1</int>
+              </void>
+              <void property="nome">
+               <string>Rodrigo</string>
+              </void>
+              <void property="placa">
+               <string>BRA 1234</string>
+              </void>
+              <void property="senha">
+               <string>123senha</string>
+              </void>
+              <void property="veiculo">
+               <string>moto</string>
+              </void>
+             </object>
+            </void>
+           </object>
+          </void>
           <void property="fecha">
            <string>21:00</string>
           </void>
@@ -51,6 +80,9 @@
           </void>
           <void property="endereco">
            <string>Rua Segura N 123</string>
+          </void>
+          <void property="entregador_list">
+           <object class="java.util.ArrayList"/>
           </void>
           <void property="id">
            <int>3</int>
@@ -87,6 +119,38 @@
     </void>
     <void property="endereco">
      <string>Rua Segura N 987</string>
+    </void>
+    <void property="entregador_list">
+     <object class="java.util.ArrayList">
+      <void method="add">
+       <object idref="Entregador0"/>
+      </void>
+      <void method="add">
+       <object class="br.ufal.ic.p2.myfood.models.Entregador">
+        <void property="email">
+         <string>rodrigo2@ufal.com.br</string>
+        </void>
+        <void property="endereco">
+         <string>Rua Exemplo N 321</string>
+        </void>
+        <void property="id">
+         <int>3</int>
+        </void>
+        <void property="nome">
+         <string>Rodrigo</string>
+        </void>
+        <void property="placa">
+         <string>BRA 1234</string>
+        </void>
+        <void property="senha">
+         <string>123senha</string>
+        </void>
+        <void property="veiculo">
+         <string>moto</string>
+        </void>
+       </object>
+      </void>
+     </object>
     </void>
     <void property="id">
      <int>1</int>
