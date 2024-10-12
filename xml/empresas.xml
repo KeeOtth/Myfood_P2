@@ -22,7 +22,43 @@
            <string>Rua Segura N 123</string>
           </void>
           <void property="entregador_list">
-           <object class="java.util.ArrayList"/>
+           <object class="java.util.ArrayList">
+            <void method="add">
+             <object class="br.ufal.ic.p2.myfood.models.Entregador">
+              <void property="comp_list">
+               <object class="java.util.ArrayList">
+                <void method="add">
+                 <object idref="Mercado0"/>
+                </void>
+               </object>
+              </void>
+              <void property="email">
+               <string>felipe@gmail.com</string>
+              </void>
+              <void property="endereco">
+               <string>Rua Exemplo N 123</string>
+              </void>
+              <void property="id">
+               <int>5</int>
+              </void>
+              <void property="nome">
+               <string>Felipe</string>
+              </void>
+              <void property="placa">
+               <string>BRA 1111</string>
+              </void>
+              <void property="senha">
+               <string>123senha</string>
+              </void>
+              <void property="status">
+               <string>disponivel</string>
+              </void>
+              <void property="veiculo">
+               <string>moto</string>
+              </void>
+             </object>
+            </void>
+           </object>
           </void>
           <void property="fecha">
            <string>21:00</string>
@@ -95,7 +131,46 @@
            <string>Rua Segura N 123</string>
           </void>
           <void property="entregador_list">
-           <object class="java.util.ArrayList"/>
+           <object class="java.util.ArrayList">
+            <void method="add">
+             <object class="br.ufal.ic.p2.myfood.models.Entregador" id="Entregador0">
+              <void property="comp_list">
+               <object class="java.util.ArrayList">
+                <void method="add">
+                 <object idref="Restaurante0"/>
+                </void>
+                <void method="add">
+                 <object idref="Farmacia0"/>
+                </void>
+               </object>
+              </void>
+              <void property="email">
+               <string>rodrigo@ufal.com.br</string>
+              </void>
+              <void property="endereco">
+               <string>Rua Exemplo N 123</string>
+              </void>
+              <void property="id">
+               <int>3</int>
+              </void>
+              <void property="nome">
+               <string>Rodrigo</string>
+              </void>
+              <void property="placa">
+               <string>BRA 1234</string>
+              </void>
+              <void property="senha">
+               <string>123senha</string>
+              </void>
+              <void property="status">
+               <string>disponivel</string>
+              </void>
+              <void property="veiculo">
+               <string>moto</string>
+              </void>
+             </object>
+            </void>
+           </object>
           </void>
           <void property="id">
            <int>3</int>
@@ -117,7 +192,7 @@
                <int>3</int>
               </void>
               <void property="nome">
-               <string>Paracetamol </string>
+               <string>Paracetamol</string>
               </void>
               <void property="valor">
                <float>2.4</float>
@@ -175,32 +250,17 @@
     <void property="entregador_list">
      <object class="java.util.ArrayList">
       <void method="add">
-       <object class="br.ufal.ic.p2.myfood.models.Entregador">
-        <void property="email">
-         <string>rodrigo@ufal.com.br</string>
-        </void>
-        <void property="endereco">
-         <string>Rua Exemplo N 123</string>
-        </void>
-        <void property="id">
-         <int>3</int>
-        </void>
-        <void property="nome">
-         <string>Rodrigo</string>
-        </void>
-        <void property="placa">
-         <string>BRA 1234</string>
-        </void>
-        <void property="senha">
-         <string>123senha</string>
-        </void>
-        <void property="veiculo">
-         <string>moto</string>
-        </void>
-       </object>
+       <object idref="Entregador0"/>
       </void>
       <void method="add">
        <object class="br.ufal.ic.p2.myfood.models.Entregador">
+        <void property="comp_list">
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <object idref="Restaurante0"/>
+          </void>
+         </object>
+        </void>
         <void property="email">
          <string>joana@ufal.com.br</string>
         </void>
@@ -218,6 +278,9 @@
         </void>
         <void property="senha">
          <string>123senha</string>
+        </void>
+        <void property="status">
+         <string>entregando</string>
         </void>
         <void property="veiculo">
          <string>carro</string>

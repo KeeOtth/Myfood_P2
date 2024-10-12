@@ -1,8 +1,13 @@
 package br.ufal.ic.p2.myfood.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Entregador extends Usuario{
     private String veiculo;
     private String placa;
+    private String status;
+    private List<Empresa> comp_list;
 
     // O construtor vazio é necessário para a serialização e desserialização
     public Entregador() {
@@ -12,6 +17,8 @@ public class Entregador extends Usuario{
         super(nome, email, senha, endereco);
         this.veiculo = veiculo;
         this.placa = placa;
+        this.status = "disponivel";
+        comp_list = new ArrayList<Empresa>();
     }
 
     // Getters e Setters

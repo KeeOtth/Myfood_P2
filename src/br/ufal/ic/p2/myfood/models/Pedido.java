@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Pedido {
     private static int contador = 1; //Para gerar o id único dos Pedidos
-    private int numero;
+    private int id;
     private Usuario cliente;
     private Empresa empresa;
     private String estado;
@@ -19,20 +19,21 @@ public class Pedido {
     }
 
     public Pedido (Usuario cliente, Empresa empresa) {
-        this.numero = contador++;
+        this.id = contador++;
         this.cliente = cliente;
         this.empresa = empresa;
         this.estado = "aberto";
     }
 
+
     // Getters e Setters
 
-    public int getNumero() {
-        return numero;
+    public int getId() {
+        return id;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Usuario getCliente() {
@@ -67,7 +68,8 @@ public class Pedido {
         switch (this.estado) {
             case "aberto" -> this.estado = "preparando";
             case "preparando" -> this.estado = "pronto";
-            case "pronto" -> throw new UnregisteredException("Pedido ja liberado");
+            case "pronto" -> this.estado = "entregando";
+            case "entregando" -> this.estado = "entregue";
             default -> throw new UnregisteredException("Este pedido nao esta aberto");
         }
     }
@@ -108,7 +110,12 @@ public class Pedido {
     }
 
     public String toString(){
-        return "id = " + numero + ", Cliente = " + cliente.getNome() + ", Empresa = " + empresa.getNome() + ", Estado = " + estado + "\n"
-                + "Produtos de pedido:\n" + prod_list + "\n\n";
+        return "Pedido{" +
+                "produtos= '" + prod_list + '\'' +
+                ", id= " + id +
+                ", cliente= '" + cliente.getNome() + '\'' +
+                ", empresa= " + empresa.getNome() +
+                ", estado= " + estado +
+                '}';
     }
 }

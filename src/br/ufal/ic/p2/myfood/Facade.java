@@ -51,8 +51,8 @@ public class Facade {
 
     // User Story 3
 
-    public int criarProduto(int id_empresa, String nome, float valor, String categoria) throws ProductCreationException {
-        return sys.criarProduto(id_empresa, nome, valor, categoria);
+    public int criarProduto(int empresa, String nome, float valor, String categoria) throws ProductCreationException {
+        return sys.criarProduto(empresa, nome, valor, categoria);
     }
 
     public void editarProduto(int produto, String nome, float valor, String categoria) throws ProductCreationException {
@@ -77,8 +77,8 @@ public class Facade {
         return sys.getNumeroPedido(cleinte, empresa, indice);
     }
 
-    public void adicionarProduto(int pedido, int produto) throws UnregisteredException, StatusException {
-        sys.adicionarProduto(pedido, produto);
+    public void adicionarProduto(int numero, int produto) throws UnregisteredException, StatusException {
+        sys.adicionarProduto(numero, produto);
     }
 
     public String getPedidos(int pedido, String atributo) throws InvalidAtributeException, UnregisteredException {
@@ -95,7 +95,7 @@ public class Facade {
 
     // User Story 5
 
-    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String abre, String fecha, String tipoMercado) throws CompanyCreationException, WrongTypeUserException{
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String abre, String fecha, String tipoMercado) throws CompanyCreationException, WrongTypeUserException {
         return sys.criarEmpresa(tipoEmpresa, dono, nome, endereco, abre, fecha, tipoMercado);
     }
 
@@ -105,12 +105,12 @@ public class Facade {
 
     // User Story 6
 
-    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios) throws CompanyCreationException, WrongTypeUserException{
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios) throws CompanyCreationException, WrongTypeUserException {
         return sys.criarEmpresa(tipoEmpresa, dono, nome, endereco, aberto24Horas, numeroFuncionarios);
     }
 
     // User Story 7
-    public void criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws UserCreationException{
+    public void criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws UserCreationException {
         sys.criarUsuario(nome, email, senha, endereco, veiculo, placa);
     }
 
@@ -129,5 +129,25 @@ public class Facade {
     // User Story 8
     public void liberarPedido(int numero) throws UnregisteredException {
         sys.liberarPedido(numero);
+    }
+
+    public int obterPedido(int entregador) throws UnregisteredException, WrongTypeUserException {
+        return sys.obterPedido(entregador);
+    }
+
+    public int criarEntrega(int pedido, int entregador, String destino) throws WrongTypeUserException, UnregisteredException {
+        return sys.criarEntrega(pedido, entregador, destino);
+    }
+
+    public String getEntrega(int id, String atributo) throws InvalidAtributeException {
+        return sys.getEntrega(id, atributo);
+    }
+
+    public int getIdEntrega(int pedido) throws UnregisteredException {
+        return sys.getIdEntrega(pedido);
+    }
+
+    public void entregar(int entrega) throws UnregisteredException {
+        sys.entregar(entrega);
     }
 }

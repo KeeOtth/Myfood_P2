@@ -25,7 +25,7 @@ public class PersistenciaPedido implements Persistencia<Pedido> {
 
     @Override
     public void remover(int id) {
-        carrinho.removeIf(pedido -> pedido.getNumero() == id);
+        carrinho.removeIf(pedido -> pedido.getId() == id);
         controle.SerializarXML(carrinho, arquivo);
     }
 
@@ -45,7 +45,7 @@ public class PersistenciaPedido implements Persistencia<Pedido> {
     @Override
     public Pedido buscar(int id) {
         for (Pedido pedido : carrinho) {
-            if (pedido.getNumero() == id) {
+            if (pedido.getId() == id) {
                 return pedido;
             }
         }

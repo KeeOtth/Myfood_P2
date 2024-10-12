@@ -15,7 +15,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Sistema {
-
     /**
      * Estruturas de Persistência das Classes
      * Usuario, Esmpresa, Produto e Pedido
@@ -33,6 +32,7 @@ public class Sistema {
         persistenciaEmpresa.iniciar();
         persistenciaProduto.iniciar();
         persistenciaPedido.iniciar();
+        persistenciaEntrega.iniciar();
 
         // Carregar o ArrayList comp_list dos donos
         for (Usuario usuario : persistenciaUsuario.listar()) {
@@ -58,13 +58,14 @@ public class Sistema {
     }
 
     /**
-     *  Limpa todos os dados do Sistema
+     * Limpa todos os dados do Sistema
      */
     public void zerarSistema() {
         persistenciaUsuario.limpar();
         persistenciaEmpresa.limpar();
         persistenciaProduto.limpar();
         persistenciaPedido.limpar();
+        persistenciaEntrega.limpar();
     }
 
     /**
@@ -75,6 +76,7 @@ public class Sistema {
 
     /**
      * Retorna a lista de Pedidos de um Cliente numa determinada empresa
+     *
      * @param idCliente O id do cliente
      * @param idEmpresa O id da empresa
      * @return Os pedidos de um Cliente numa determinada Empresa
@@ -91,9 +93,10 @@ public class Sistema {
 
     /**
      * Valida as informações para criar um usuário
-     * @param nome O nome do usuário
-     * @param email O email cadastrado
-     * @param senha A senha cadastrada
+     *
+     * @param nome     O nome do usuário
+     * @param email    O email cadastrado
+     * @param senha    A senha cadastrada
      * @param endereco O endereco cadastrado
      * @throws UserCreationException Retorna o erro caso algum desses atributos forem nulos ou vazios
      */
@@ -118,13 +121,14 @@ public class Sistema {
 
     /**
      * Cria um usuário do tipo Cliente
-     * @param nome O nome do cliente
-     * @param email O email da conta do cliente
-     * @param senha A senha da conta do cliente
+     *
+     * @param nome     O nome do cliente
+     * @param email    O email da conta do cliente
+     * @param senha    A senha da conta do cliente
      * @param endereco O endereco do cliente
      * @throws UserCreationException Retorna erro caso algum desses atributos for nulo ou vazio, ou caso já exista uma conta
      */
-    public void criarUsuario(String nome, String email, String senha, String endereco) throws UserCreationException{
+    public void criarUsuario(String nome, String email, String senha, String endereco) throws UserCreationException {
 
         testUserInvalid(nome, email, senha, endereco);
 
@@ -140,11 +144,12 @@ public class Sistema {
 
     /**
      * Cria um usuário do tipo Dono
-     * @param nome O nome do dono da empresa
-     * @param email O email da conta do dono da empresa
-     * @param senha A senha da conta do dono da empresa
+     *
+     * @param nome     O nome do dono da empresa
+     * @param email    O email da conta do dono da empresa
+     * @param senha    A senha da conta do dono da empresa
      * @param endereco O endereco do dono da empresa
-     * @param cpf O CPF do dono da empresa
+     * @param cpf      O CPF do dono da empresa
      * @throws UserCreationException Retorna erro caso algum desses atributos for nulo ou vazio, ou caso já exista uma conta
      */
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws UserCreationException {
@@ -167,12 +172,13 @@ public class Sistema {
 
     /**
      * Cria um usuário do tipo Entregador
-     * @param nome O nome do entregador
-     * @param email O email da conta do entregador
-     * @param senha A senha da conta do entregador
+     *
+     * @param nome     O nome do entregador
+     * @param email    O email da conta do entregador
+     * @param senha    A senha da conta do entregador
      * @param endereco O endereco do entregador
-     * @param veiculo O tipo do veiculo do entregador
-     * @param placa A placa do veiculo do entregador
+     * @param veiculo  O tipo do veiculo do entregador
+     * @param placa    A placa do veiculo do entregador
      * @throws UserCreationException Retorna erro caso algum desses atributos forem nulos ou vazio, ou caso já exista uma conta
      */
     public void criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws UserCreationException {
@@ -197,7 +203,8 @@ public class Sistema {
 
     /**
      * Retorna uma string contendo o valor do atributo informado
-     * @param id O id do usuário
+     *
+     * @param id       O id do usuário
      * @param atributo O nome do atributo que deseja
      * @return O atributo
      * @throws UnregisteredException Retorna um erro, caso não encontre o usuário
@@ -213,6 +220,7 @@ public class Sistema {
 
     /**
      * Valida as credências do usuário
+     *
      * @param email Uma String contendo o email do usuário
      * @param senha Uma String contendo a senha do usuário
      * @return Retorna o id do usuário
@@ -229,7 +237,8 @@ public class Sistema {
 
     /**
      * Cadastra um entregador a uma empresa a qual ele faz entregas.
-     * @param idEmpresa Um inteiro contendo o id da empresa
+     *
+     * @param idEmpresa    Um inteiro contendo o id da empresa
      * @param idEntregador Um inteiro contendo o id do entregador
      * @throws WrongTypeUserException Retorna um erro, caso as credenciais não estejam corretas
      */
@@ -242,17 +251,20 @@ public class Sistema {
         }
 
         for (Entregador entregador : empresa.getEntregador_list()) {
-           if (entregador.getId() == user.getId()) {
-               throw new UserCreationException("O entregador já está cadastrado na empresa.");
-           }
+            if (entregador.getId() == user.getId()) {
+                throw new UserCreationException("O entregador já está cadastrado na empresa.");
+            }
         }
 
         empresa.addEntregador_list((Entregador) user);
+        ((Entregador) user).addComp(empresa);
         persistenciaEmpresa.atualizar();
+        persistenciaUsuario.atualizar();
     }
 
     /**
      * Retorna uma String com todos os entregadores de uma empresa
+     *
      * @param idEmpresa O id da empresa que deseja consultar
      * @return Uma String contendo a lista dos entregadores de uma empresa
      * @throws UnregisteredException retorna um erro caso o usuario não esteja cadastrado
@@ -260,7 +272,7 @@ public class Sistema {
     public String getEntregadores(int idEmpresa) throws UnregisteredException {
         Empresa comp = persistenciaEmpresa.buscar(idEmpresa);
 
-        if (comp == null){
+        if (comp == null) {
             throw new UnregisteredException("Empresa nao encontrada");
         }
 
@@ -269,13 +281,14 @@ public class Sistema {
 
     /**
      * Valida as informações sobre Hora
+     *
      * @param time Uma String contendo a hora
      * @throws CompanyCreationException Retorna um erro, caso as informações não estejam corretas
      */
     public void testHourInvalid(String time) throws CompanyCreationException {
         if (time == null) {
             throw new CompanyCreationException("Horario invalido");
-        } else if (time.isEmpty()){
+        } else if (time.isEmpty()) {
             throw new CompanyCreationException("Formato de hora invalido");
         }
         if (time.length() != 5 || time.charAt(2) != ':') {
@@ -283,7 +296,7 @@ public class Sistema {
         }
 
         // Hora
-        if ((time.charAt(0) == '0' || time.charAt(0) == '1')  && !(time.charAt(1) >= 48 && time.charAt(1) <= 57)){
+        if ((time.charAt(0) == '0' || time.charAt(0) == '1') && !(time.charAt(1) >= 48 && time.charAt(1) <= 57)) {
             throw new CompanyCreationException("Horario invalido");
         } else if (time.charAt(0) == '2' && !(time.charAt(1) >= 48 && time.charAt(1) <= 52)) {
             throw new CompanyCreationException("Horario invalido");
@@ -293,7 +306,7 @@ public class Sistema {
         if (!(time.charAt(3) >= 48 && time.charAt(3) <= 53)) {
             throw new CompanyCreationException("Horario invalido");
         }
-        if (!(time.charAt(4) >=48 && time.charAt(4) <= 57)) {
+        if (!(time.charAt(4) >= 48 && time.charAt(4) <= 57)) {
             throw new CompanyCreationException("Horario invalido");
         }
 
@@ -301,7 +314,8 @@ public class Sistema {
 
     /**
      * Valida se o horário de abertura da loja é antes da de fechamento
-     * @param abre Uma String contendo a hora de abertura da loja
+     *
+     * @param abre  Uma String contendo a hora de abertura da loja
      * @param fecha Uma String contendo a hora de fechamento da loja
      * @return Retorna um booleano
      */
@@ -315,16 +329,17 @@ public class Sistema {
 
     /**
      * Cria um Empresa do tipo Restaurante para um determinado Dono
+     *
      * @param tipoEmpresa O tipo de empresa
-     * @param dono O id do Dono da empresa
-     * @param nome O nome da empresa
-     * @param endereco O endereco da empresa
+     * @param dono        O id do Dono da empresa
+     * @param nome        O nome da empresa
+     * @param endereco    O endereco da empresa
      * @param tipoCozinha O estilo de comida ofertada pelo restaurante
      * @return O Id da empresa
-     * @throws CompanyCreationException  Retorna erro caso os dados informados sejam inválidos
-     * @throws WrongTypeUserException Retorna erro caso o id informado não seja do tipo Dono
+     * @throws CompanyCreationException Retorna erro caso os dados informados sejam inválidos
+     * @throws WrongTypeUserException   Retorna erro caso o id informado não seja do tipo Dono
      */
-    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String tipoCozinha) throws CompanyCreationException, WrongTypeUserException{
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String tipoCozinha) throws CompanyCreationException, WrongTypeUserException {
 
         if (nome == null || nome.isEmpty()) {
             throw new CompanyCreationException("Nome invalido");
@@ -359,16 +374,17 @@ public class Sistema {
 
     /**
      * Cria um Empresa do tipo Mercado para um determinado Dono
+     *
      * @param tipoEmpresa O tipo de empresa
-     * @param dono O id do Dono da empresa
-     * @param nome O nome da empresa
-     * @param endereco O endereco da empresa
+     * @param dono        O id do Dono da empresa
+     * @param nome        O nome da empresa
+     * @param endereco    O endereco da empresa
      * @param tipoMercado O estilo do mercado
      * @return O id da empresa
-     * @throws CompanyCreationException  Retorna erro caso os dados informados sejam inválidos
-     * @throws WrongTypeUserException Retorna erro caso o id informado não seja do tipo Dono
+     * @throws CompanyCreationException Retorna erro caso os dados informados sejam inválidos
+     * @throws WrongTypeUserException   Retorna erro caso o id informado não seja do tipo Dono
      */
-    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String abre, String fecha, String tipoMercado) throws CompanyCreationException, WrongTypeUserException{
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, String abre, String fecha, String tipoMercado) throws CompanyCreationException, WrongTypeUserException {
 
         if (nome == null || nome.isEmpty()) {
             throw new CompanyCreationException("Nome invalido");
@@ -385,7 +401,7 @@ public class Sistema {
 
         testHourInvalid(abre);
         testHourInvalid(fecha);
-        if (isCloseBeforeOpen(abre, fecha)){
+        if (isCloseBeforeOpen(abre, fecha)) {
             throw new CompanyCreationException("Horario invalido");
         }
 
@@ -415,17 +431,18 @@ public class Sistema {
 
     /**
      * Cria um Empresa do tipo Farmacia para um determinado Dono
-     * @param tipoEmpresa O tipo de empresa
-     * @param dono O id do Dono da empresa
-     * @param nome O nome da empresa
-     * @param endereco O endereco da empresa
-     * @param aberto24H Informa se a farmácia funciona 24h ou não
+     *
+     * @param tipoEmpresa   O tipo de empresa
+     * @param dono          O id do Dono da empresa
+     * @param nome          O nome da empresa
+     * @param endereco      O endereco da empresa
+     * @param aberto24H     Informa se a farmácia funciona 24h ou não
      * @param nFuncionarios A quantidade de funcionários que trabalha na farmácia
      * @return O id da empresa
-     * @throws CompanyCreationException  Retorna erro caso os dados informados sejam inválidos
-     * @throws WrongTypeUserException Retorna erro caso o id informado não seja do tipo Dono
+     * @throws CompanyCreationException Retorna erro caso os dados informados sejam inválidos
+     * @throws WrongTypeUserException   Retorna erro caso o id informado não seja do tipo Dono
      */
-    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, Boolean aberto24H, int nFuncionarios ) throws CompanyCreationException, WrongTypeUserException{
+    public int criarEmpresa(String tipoEmpresa, int dono, String nome, String endereco, Boolean aberto24H, int nFuncionarios) throws CompanyCreationException, WrongTypeUserException {
         if (nome == null || nome.isEmpty()) {
             throw new CompanyCreationException("Nome invalido");
         }
@@ -462,6 +479,7 @@ public class Sistema {
 
     /**
      * Retorna a lista de empresas de um Dono
+     *
      * @param idDono O id do usuário desejado
      * @return Uma String contendo a lista de empresas do Dono
      * @throws WrongTypeUserException Retorna erro, caso o id passado não seja do tipo Dono
@@ -477,11 +495,12 @@ public class Sistema {
 
     /**
      * Retorna um determinado atributo de uma determinada empresa
+     *
      * @param idEmpresa O id da empresa desejada
-     * @param atributo O atributo desejado
+     * @param atributo  O atributo desejado
      * @return Uma String contendo o valor do atributo desejado
      * @throws InvalidAtributeException Retorna um erro caso o atributo informado seja inválido
-     * @throws UnregisteredException  Retorna um erro caso a empresa não esteja cadastrada
+     * @throws UnregisteredException    Retorna um erro caso a empresa não esteja cadastrada
      */
     public String getAtributoEmpresa(int idEmpresa, String atributo) throws InvalidAtributeException, UnregisteredException {
         Empresa tempEmpresa = persistenciaEmpresa.buscar(idEmpresa);
@@ -509,13 +528,14 @@ public class Sistema {
 
     /**
      * Retorna o id de uma empresa de um determinado produto
+     *
      * @param idDono O id do dono das empresas
-     * @param nome O nome da empresa
+     * @param nome   O nome da empresa
      * @param indice O indice da empresa desejada na lista de empresas do determinado dono
      * @return O id da empresa desejada
-     * @throws OutofBoundsException Retorna erro caso o indice informado esteja além dos limites da lista
-     * @throws WrongTypeUserException Retorna erro caso o id informado não seja do tipo Dono
-     * @throws UnregisteredException Retorna erro caso não a empresa informada não exista
+     * @throws OutofBoundsException     Retorna erro caso o indice informado esteja além dos limites da lista
+     * @throws WrongTypeUserException   Retorna erro caso o id informado não seja do tipo Dono
+     * @throws UnregisteredException    Retorna erro caso não a empresa informada não exista
      * @throws CompanyCreationException Retorna erro caso o nome informado seja inválido
      */
     public int getIdEmpresa(int idDono, String nome, int indice) throws OutofBoundsException, WrongTypeUserException, UnregisteredException, CompanyCreationException {
@@ -541,7 +561,7 @@ public class Sistema {
             }
         }
 
-        if(getIndexByNome(companiesOfUser, nome) == -1) {
+        if (getIndexByNome(companiesOfUser, nome) == -1) {
             throw new UnregisteredException("Nao existe empresa com esse nome");
         }
 
@@ -554,8 +574,9 @@ public class Sistema {
 
     /**
      * Retorna o id da empresa desejada
+     *
      * @param empresas A lista das empresas
-     * @param nome O nome da empresa que deseja buscar
+     * @param nome     O nome da empresa que deseja buscar
      * @return O id da empresa, caso não encontre retorna -1
      */
     public static int getIndexByNome(List<Empresa> empresas, String nome) {
@@ -569,18 +590,19 @@ public class Sistema {
 
     /**
      * Muda o horario de funcionamento de uma empresa
+     *
      * @param idEmpresa O id da empresa
-     * @param abre O horario que a empresa abre
-     * @param fecha O horario que a empresa fecha
+     * @param abre      O horario que a empresa abre
+     * @param fecha     O horario que a empresa fecha
      */
     public void alterarFuncionamento(int idEmpresa, String abre, String fecha) throws CompanyCreationException {
         testHourInvalid(abre);
         testHourInvalid(fecha);
-        if (isCloseBeforeOpen(abre, fecha)){
+        if (isCloseBeforeOpen(abre, fecha)) {
             throw new CompanyCreationException("Horario invalido");
         }
 
-        if(!(persistenciaEmpresa.buscar(idEmpresa).getClass().getSimpleName().equals("Mercado"))){
+        if (!(persistenciaEmpresa.buscar(idEmpresa).getClass().getSimpleName().equals("Mercado"))) {
             throw new CompanyCreationException("Nao e um mercado valido");
         }
 
@@ -592,28 +614,27 @@ public class Sistema {
     }
 
     /**
-     * Retorna uma String com todos os produtos de uma empresa
+     * Retorna uma String com todas as empresas de um entregador
+     *
      * @param idEntregador O id da empresa que deseja consultar
-     * @return Uma String contendo a lista dos produtos de uma empresa
+     * @return Uma String contendo a lista das empresas de um entregador
      * @throws WrongTypeUserException retorna um erro caso o usuario não esteja cadastrado
      */
     public String getEmpresas(int idEntregador) throws WrongTypeUserException {
-        if (!persistenciaUsuario.buscar(idEntregador).getClass().getSimpleName().equals("Entregador")){
+        if (!persistenciaUsuario.buscar(idEntregador).getClass().getSimpleName().equals("Entregador")) {
             throw new WrongTypeUserException("Usuario nao e um entregador");
         }
 
-        List<Empresa> companiesOfDeliverer = persistenciaEmpresa.listar()
-                .stream()
-                .filter(company -> company.getEntregador_list().stream().anyMatch(delivery -> delivery.getId() == idEntregador))
-                .toList();
+        Entregador delivery = (Entregador) persistenciaUsuario.buscar(idEntregador);
 
-        return "{" + companiesOfDeliverer + "}";
+        return "{" + delivery.getComp_list() + "}";
     }
 
     /**
      * Valida os atributos para a criação do Produto
-     * @param nome O nome do produto
-     * @param valor O valor do produto
+     *
+     * @param nome      O nome do produto
+     * @param valor     O valor do produto
      * @param categoria A categoria do produto
      * @throws ProductCreationException Retorna um erro caso algum atributo seja inválido
      */
@@ -634,9 +655,10 @@ public class Sistema {
 
     /**
      * Cria um produto para uma determinada empresa
+     *
      * @param idEmpresa O id da empresa
-     * @param nome O nome do produto
-     * @param valor O valor do produto
+     * @param nome      O nome do produto
+     * @param valor     O valor do produto
      * @param categoria A categoria do produto
      * @return O id do produto cadastrado
      * @throws ProductCreationException Retorna erro caso algum atributo seja inválido
@@ -647,7 +669,7 @@ public class Sistema {
         testProductInvalid(nome, valor, categoria);
 
         for (Produto produto : comp.getProd_list()) {
-            if (produto.getNome().equals(nome)){
+            if (produto.getNome().equals(nome)) {
                 throw new ProductCreationException("Ja existe um produto com esse nome para essa empresa");
             }
         }
@@ -660,9 +682,10 @@ public class Sistema {
 
     /**
      * Edita os atributos de um produto
+     *
      * @param idProduto O id do produto que vai ser editado
-     * @param nome O novo nome a ser atribuido
-     * @param valor O novo valor a ser atribuido
+     * @param nome      O novo nome a ser atribuido
+     * @param valor     O novo valor a ser atribuido
      * @param categoria A novo categoria a ser atribuida
      * @throws ProductCreationException Retorna erro caso o produto seja nulo
      */
@@ -683,12 +706,13 @@ public class Sistema {
 
     /**
      * Retorna o valor do atributo de um Produto desejado
-     * @param nome O nome do produto
+     *
+     * @param nome      O nome do produto
      * @param idEmpresa O id da empresa onde o produto está cadastrado
-     * @param atributo O nome do atributo que deseja obter
+     * @param atributo  O nome do atributo que deseja obter
      * @return O valor do atributo do produto
      * @throws InvalidAtributeException Retorna erro caso o atributo informado seja inválido
-     * @throws UnregisteredException Retorna erro caso o produto desejado não esteja caastrado
+     * @throws UnregisteredException    Retorna erro caso o produto desejado não esteja caastrado
      */
     public String getProduto(String nome, int idEmpresa, String atributo) throws InvalidAtributeException, UnregisteredException {
         Empresa comp = persistenciaEmpresa.buscar(idEmpresa);
@@ -714,6 +738,7 @@ public class Sistema {
 
     /**
      * Retorna uma String com todos os produtos de uma empresa
+     *
      * @param idEmpresa O id da empresa que deseja consultar
      * @return Uma String contendo a lista dos produtos de uma empresa
      * @throws UnregisteredException retorna um erro caso o usuario não esteja cadastrado
@@ -721,7 +746,7 @@ public class Sistema {
     public String listarProdutos(int idEmpresa) throws UnregisteredException {
         Empresa comp = persistenciaEmpresa.buscar(idEmpresa);
 
-        if (comp == null){
+        if (comp == null) {
             throw new UnregisteredException("Empresa nao encontrada");
         }
 
@@ -730,6 +755,7 @@ public class Sistema {
 
     /**
      * Cria um pedido de um determinado Cliente numa determinada Empresa
+     *
      * @param idCliente O id do Cliente
      * @param idEmpresa O id da Empresa
      * @return O id do pedido criado
@@ -740,7 +766,7 @@ public class Sistema {
         Usuario temp_cliente = persistenciaUsuario.buscar(idCliente);
         List<Pedido> pedidosClienteEmpresa = pedidosClienteEmpresa(idCliente, idEmpresa);
 
-        if (temp_cliente.getClass().getSimpleName().equals("Dono")){
+        if (temp_cliente.getClass().getSimpleName().equals("Dono")) {
             throw new WrongTypeUserException("Dono de empresa nao pode fazer um pedido");
         } else if (!pedidosClienteEmpresa.isEmpty()) {
             throw new OrderCreationException();
@@ -748,16 +774,17 @@ public class Sistema {
             Empresa temp_comp = persistenciaEmpresa.buscar(idEmpresa);
             Pedido ped = new Pedido(temp_cliente, temp_comp);
             persistenciaPedido.salvar(ped);
-            return ped.getNumero();
+            return ped.getId();
         }
     }
 
     /**
      * Adiciona um produto no pedido
-     * @param idPedido o id do pedido
+     *
+     * @param idPedido  o id do pedido
      * @param idProduto o id do produto
      * @throws UnregisteredException Retorna erro caso o produto desejado não pertença à empresa
-     * @throws StatusException Retorna erro caso o pedido esteja em aberto
+     * @throws StatusException       Retorna erro caso o pedido esteja em aberto
      */
     public void adicionarProduto(int idPedido, int idProduto) throws UnregisteredException, StatusException {
         Pedido tempPedido = persistenciaPedido.buscar(idPedido);
@@ -766,7 +793,7 @@ public class Sistema {
             throw new UnregisteredException("Nao existe pedido em aberto");
         }
 
-        if (!(tempPedido.getEstado().equals("aberto"))){
+        if (!(tempPedido.getEstado().equals("aberto"))) {
             throw new StatusException("Nao e possivel adcionar produtos a um pedido fechado");
         }
 
@@ -783,9 +810,10 @@ public class Sistema {
 
     /**
      * Retorna o id de um pedido do historico de um cliente em uma empresa
+     *
      * @param idCliente o id do cliente
      * @param idEmpresa o id da empresa
-     * @param indice O indice do pedido desejada na lista de pedidos do determinado cliente numa determinada empresa
+     * @param indice    O indice do pedido desejada na lista de pedidos do determinado cliente numa determinada empresa
      * @return O id do pedido desejado
      */
     public int getNumeroPedido(int idCliente, int idEmpresa, int indice) {
@@ -793,19 +821,20 @@ public class Sistema {
         String nomeEmpresa = persistenciaEmpresa.buscar(idEmpresa).getNome();
 
         List<Pedido> pedidosClienteEmpresa = persistenciaPedido.listar()
-                        .stream()
-                        .filter(pedido -> pedido.getCliente().getNome().equals(nomeCliente) && pedido.getEmpresa().getNome().equals(nomeEmpresa))
-                        .toList();
+                .stream()
+                .filter(pedido -> pedido.getCliente().getNome().equals(nomeCliente) && pedido.getEmpresa().getNome().equals(nomeEmpresa))
+                .toList();
 
-        return pedidosClienteEmpresa.get(indice).getNumero();
+        return pedidosClienteEmpresa.get(indice).getId();
     }
 
     /**
      * Retorna o valor do atributo do pedido
+     *
      * @param idPedido o id do pedido
      * @param atributo o nome do atributo desejado
      * @return O valor do atributo desejado
-     * @throws UnregisteredException retorna erro caso o produto não esteja cadastrado
+     * @throws UnregisteredException    retorna erro caso o produto não esteja cadastrado
      * @throws InvalidAtributeException reotna erro caso o parametro 'atributo' seja inválido
      */
     public String getPedidos(int idPedido, String atributo) throws UnregisteredException, InvalidAtributeException {
@@ -815,7 +844,7 @@ public class Sistema {
 
         Pedido tempPedido = persistenciaPedido.buscar(idPedido);
 
-        if (tempPedido.getNumero() == idPedido) {
+        if (tempPedido.getId() == idPedido) {
             return switch (atributo) {
                 case "cliente" -> tempPedido.getCliente().getNome();
                 case "empresa" -> tempPedido.getEmpresa().getNome();
@@ -830,6 +859,7 @@ public class Sistema {
 
     /**
      * Muda o status do pedido para "preparando"
+     *
      * @param idPedido o id do pedido
      * @throws UnregisteredException Retorna erro caso o pedido informado não esteja cadastrado
      */
@@ -840,11 +870,12 @@ public class Sistema {
         }
 
         tempPedido.changeEstado();
-
+        persistenciaPedido.atualizar();
     }
 
     /**
      * Muda o status do pedido para "pronto"
+     *
      * @param idPedido o id do pedido
      * @throws UnregisteredException Retorna erro caso o pedido informado não esteja cadastrado
      */
@@ -856,18 +887,22 @@ public class Sistema {
 
         if (tempPedido.getEstado().equals("aberto")) {
             throw new UnregisteredException("Nao e possivel liberar um produto que nao esta sendo preparado");
+        } else if (tempPedido.getEstado().equals("pronto")) {
+            throw new UnregisteredException("Pedido ja liberado");
         }
 
         tempPedido.changeEstado();
+        persistenciaPedido.atualizar();
     }
 
     /**
      * Remove o produto em um pedido
+     *
      * @param idPedido o id do pedido
-     * @param produto O nome do produto
+     * @param produto  O nome do produto
      * @throws InvalidAtributeException Retorna erro caso o atributo seja nulo ou vazio
-     * @throws UnregisteredException Retorna erro caso o produto informado não está cadastrado
-     * @throws StatusException Retorna erro caso esteja a tentar remover produto de um pedido fechado
+     * @throws UnregisteredException    Retorna erro caso o produto informado não está cadastrado
+     * @throws StatusException          Retorna erro caso esteja a tentar remover produto de um pedido fechado
      */
     public void removerProduto(int idPedido, String produto) throws InvalidAtributeException, UnregisteredException, StatusException {
         if (produto == null || produto.isEmpty()) {
@@ -881,9 +916,9 @@ public class Sistema {
 
         List<Produto> listProd = ped.getProd_list();
         for (Produto prod : listProd) {
-            if (prod.getNome().equals(produto)){
-                    ped.removeProductFromList(prod);
-                    persistenciaPedido.atualizar();
+            if (prod.getNome().equals(produto)) {
+                ped.removeProductFromList(prod);
+                persistenciaPedido.atualizar();
                 return;
             }
         }
@@ -891,13 +926,143 @@ public class Sistema {
         throw new UnregisteredException("Produto nao encontrado");
     }
 
-    // Retorna o pedido mais antigo que esteja pronto,
-    // e que pertenca a uma empresa a qual o entregador trabalha.
-    // Pedidos de Farmacia sempre tem prioridade.
-    public int obterPedido(int idEntregador){
+    /**
+     * Retorna o pedido mais antigo que esteja pronto, e que pertenca a uma empresa a qual o entregador trabalha.
+     * Pedidos de Farmacia sempre tem prioridade.
+     *
+     * @param idEntregador o id do entregador
+     * @throws UnregisteredException  Retorna erro caso o produto informado não está cadastrado
+     * @throws WrongTypeUserException Retorna erro quando o {@code idEntregador} não é do tipo Entregador
+     */
+    public int obterPedido(int idEntregador) throws UnregisteredException, WrongTypeUserException {
+        if (!persistenciaUsuario.buscar(idEntregador).getClass().getSimpleName().equals("Entregador")) {
+            throw new WrongTypeUserException("Usuario nao e um entregador.");
+        }
 
+        Entregador entregador = (Entregador) persistenciaUsuario.buscar(idEntregador);
+        if (entregador.getComp_list().isEmpty()) {
+            throw new UnregisteredException("Entregador nao esta em nenhuma empresa.");
+        }
+
+        List<Pedido> listFarmacia = persistenciaPedido.listar()
+                .stream()
+                .filter(pedido -> pedido.getEstado().equals("pronto") && pedido.getEmpresa().getNome().contains("Farmacia"))
+                .toList();
+
+        for (Pedido pedido : listFarmacia) {
+            if (pedido.getEmpresa().getEntregador_list().contains(entregador)) {
+                return pedido.getId();
+            }
+        }
+
+        List<Pedido> listAll = persistenciaPedido.listar()
+                .stream()
+                .filter(pedido -> pedido.getEstado().equals("pronto") && !(pedido.getEmpresa().getNome().contains("Farmacia")))
+                .toList();
+
+
+        for (Pedido pedido : listAll) {
+            if (pedido.getEmpresa().getEntregador_list().contains(entregador)) {
+                return pedido.getId();
+            }
+        }
+
+        throw new UnregisteredException("Nao existe pedido para entrega");
     }
 
+    /**
+     * Cria uma entrega para de um pedido por um entregador
+     *
+     * @param idPedido     O id do pedido
+     * @param idEntregador O id do entregador
+     * @param destino      O destino da entrega
+     * @return O id da entrega cadastrada
+     * @throws WrongTypeUserException Retorna erro caso o {@code idEntregador} não pertença a um entregador
+     * @throws UnregisteredException  Retorna erro caso o pedido não esteja pronto ou o entregador não esteja disponível
+     */
+    public int criarEntrega(int idPedido, int idEntregador, String destino) throws WrongTypeUserException, UnregisteredException {
+        if (!persistenciaUsuario.buscar(idEntregador).getClass().getSimpleName().equals("Entregador")) {
+            throw new WrongTypeUserException("Nao e um entregador valido");
+        }
 
+        Entregador entregador = (Entregador) persistenciaUsuario.buscar(idEntregador);
+
+        if (entregador.getStatus().equals("entregando")) {
+            throw new UnregisteredException("Entregador ainda em entrega");
+        }
+
+        Pedido pedido = persistenciaPedido.buscar(idPedido);
+        if (!pedido.getEstado().equals("pronto")) {
+            throw new UnregisteredException("Pedido nao esta pronto para entrega");
+        }
+
+
+        Entrega entrega = new Entrega(pedido, entregador, destino);
+        persistenciaEntrega.salvar(entrega);
+
+        pedido.changeEstado();
+        persistenciaPedido.atualizar();
+        entregador.changeEstado();
+        persistenciaUsuario.atualizar();
+
+        return entrega.getId();
+    }
+
+    /**
+     * Retorna o valor do atributo de uma entrega
+     * @param idEntrega o id da entrega
+     * @param atributo o nome do atributo desejado
+     * @return O valor do atributo desejado
+     * @throws InvalidAtributeException reotna erro caso o parametro 'atributo' seja inválido
+     */
+    public String getEntrega(int idEntrega, String atributo) throws InvalidAtributeException {
+        Entrega entrega = persistenciaEntrega.buscar(idEntrega);
+
+        if (atributo == null || atributo.isEmpty()) {
+            throw new InvalidAtributeException();
+        }
+
+        return entrega.getAtributo(atributo);
+    }
+
+    /**
+     * Retorna id da entrega de um determinado pedido
+     * @param idPedido o id do pedido
+     * @return O valor do atributo desejado
+     * @throws UnregisteredException reotna erro caso pedido não foi entregue
+     */
+    public int getIdEntrega(int idPedido) throws UnregisteredException {
+        Pedido pedido = persistenciaPedido.buscar(idPedido);
+
+        if(!(pedido.getEstado().equals("entregando") || pedido.getEstado().equals("entregue"))){
+            throw new UnregisteredException("Nao existe entrega com esse id");
+        }
+
+        for (Entrega entrega : persistenciaEntrega.listar()) {
+            if (entrega.getPedido().getId() == pedido.getId()) {
+                return entrega.getId();
+            }
+        }
+
+        return -1;
+    }
+
+    //Muda o estado do pedido para entregue, o entregador tambem fica livre para poder pegar um novo pedido.
+    public void entregar(int idEntrega) throws UnregisteredException {
+        if(persistenciaEntrega.buscar(idEntrega) == null){
+            throw new UnregisteredException("Nao existe nada para ser entregue com esse id");
+        }
+
+        Entrega entrega = persistenciaEntrega.buscar(idEntrega);
+        Pedido pedido = entrega.getPedido();
+        Entregador entregador = entrega.getEntregador();
+
+        if(pedido.getEstado().equals("entregando")){
+            pedido.changeEstado();
+            persistenciaPedido.atualizar();
+            entregador.changeEstado();
+            persistenciaUsuario.atualizar();
+        }
+    }
 
 }

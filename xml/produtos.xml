@@ -89,7 +89,7 @@
      <int>3</int>
     </void>
     <void property="nome">
-     <string>Paracetamol </string>
+     <string>Paracetamol</string>
     </void>
     <void property="valor">
      <float>2.4</float>
