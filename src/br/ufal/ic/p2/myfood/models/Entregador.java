@@ -38,6 +38,33 @@ public class Entregador extends Usuario{
         this.placa = placa;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void changeEstado() {
+        switch (this.status){
+            case "disponivel" -> this.status = "entregando";
+            case "entregando" -> this.status = "disponivel";
+        }
+    }
+
+    public List<Empresa> getComp_list() {
+        return comp_list;
+    }
+
+    public void setComp_list(List<Empresa> comp_list) {
+        this.comp_list = comp_list;
+    }
+
+    public void addComp(Empresa comp) {
+        comp_list.add(comp);
+    }
+
     /**
      * Retorna o valor do atributo desejado da classe
      * @param atributo o nome do atributo desejado

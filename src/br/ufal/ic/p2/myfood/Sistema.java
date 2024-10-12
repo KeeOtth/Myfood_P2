@@ -3,10 +3,7 @@ package br.ufal.ic.p2.myfood;
 import br.ufal.ic.p2.myfood.exceptions.*;
 import br.ufal.ic.p2.myfood.interfaces.Persistencia;
 import br.ufal.ic.p2.myfood.models.*;
-import br.ufal.ic.p2.myfood.persistence.PersistenciaEmpresa;
-import br.ufal.ic.p2.myfood.persistence.PersistenciaPedido;
-import br.ufal.ic.p2.myfood.persistence.PersistenciaProduto;
-import br.ufal.ic.p2.myfood.persistence.PersistenciaUsuario;
+import br.ufal.ic.p2.myfood.persistence.*;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +20,7 @@ public class Sistema {
     public static Persistencia<Empresa> persistenciaEmpresa = new PersistenciaEmpresa();
     public static Persistencia<Produto> persistenciaProduto = new PersistenciaProduto();
     public static Persistencia<Pedido> persistenciaPedido = new PersistenciaPedido();
+    public static Persistencia<Entrega> persistenciaEntrega = new PersistenciaEntrega();
 
     /**
      * Inicia o Sistema. Carregando as informações dos XML para a memória
