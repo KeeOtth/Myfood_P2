@@ -32,7 +32,7 @@
            <object idref="Restaurante0"/>
           </void>
           <void method="add">
-           <object class="br.ufal.ic.p2.myfood.models.Mercado">
+           <object class="br.ufal.ic.p2.myfood.models.Mercado" id="Mercado0">
             <void property="abre">
              <string>07:30</string>
             </void>
@@ -57,7 +57,7 @@
             <void property="prod_list">
              <object class="java.util.ArrayList">
               <void method="add">
-               <object class="br.ufal.ic.p2.myfood.models.Produto">
+               <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto0">
                 <void property="categoria">
                  <string>bebida</string>
                 </void>
@@ -76,7 +76,7 @@
                </object>
               </void>
               <void method="add">
-               <object class="br.ufal.ic.p2.myfood.models.Produto">
+               <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto1">
                 <void property="categoria">
                  <string>limpeza</string>
                 </void>
@@ -148,7 +148,7 @@
                  <string>123senha</string>
                 </void>
                 <void property="status">
-                 <string>entregando</string>
+                 <string>disponivel</string>
                 </void>
                 <void property="veiculo">
                  <string>moto</string>
@@ -166,7 +166,7 @@
             <void property="prod_list">
              <object class="java.util.ArrayList">
               <void method="add">
-               <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto0">
+               <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto2">
                 <void property="categoria">
                  <string>medicamento</string>
                 </void>
@@ -185,7 +185,7 @@
                </object>
               </void>
               <void method="add">
-               <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto1">
+               <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto3">
                 <void property="categoria">
                  <string>higiene</string>
                 </void>
@@ -283,7 +283,7 @@
       <void property="prod_list">
        <object class="java.util.ArrayList">
         <void method="add">
-         <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto2">
+         <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto4">
           <void property="categoria">
            <string>alimento</string>
           </void>
@@ -302,7 +302,7 @@
          </object>
         </void>
         <void method="add">
-         <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto3">
+         <object class="br.ufal.ic.p2.myfood.models.Produto" id="Produto5">
           <void property="categoria">
            <string>bebida</string>
           </void>
@@ -335,10 +335,10 @@
     </void>
     <void property="prod_list">
      <void method="add">
-      <object idref="Produto2"/>
+      <object idref="Produto4"/>
      </void>
      <void method="add">
-      <object idref="Produto3"/>
+      <object idref="Produto5"/>
      </void>
     </void>
     <void property="valor_total">
@@ -352,24 +352,24 @@
      <object idref="Usuario0"/>
     </void>
     <void property="empresa">
-     <object idref="Restaurante0"/>
+     <object idref="Mercado0"/>
     </void>
     <void property="estado">
-     <string>pronto</string>
+     <string>aberto</string>
     </void>
     <void property="id">
      <int>2</int>
     </void>
     <void property="prod_list">
      <void method="add">
-      <object idref="Produto2"/>
+      <object idref="Produto0"/>
      </void>
      <void method="add">
-      <object idref="Produto3"/>
+      <object idref="Produto1"/>
      </void>
     </void>
     <void property="valor_total">
-     <float>4.4</float>
+     <float>3.65</float>
     </void>
    </object>
   </void>
@@ -382,18 +382,21 @@
      <object idref="Restaurante0"/>
     </void>
     <void property="estado">
-     <string>pronto</string>
+     <string>entregando</string>
     </void>
     <void property="id">
      <int>3</int>
     </void>
     <void property="prod_list">
      <void method="add">
-      <object idref="Produto2"/>
+      <object idref="Produto4"/>
+     </void>
+     <void method="add">
+      <object idref="Produto5"/>
      </void>
     </void>
     <void property="valor_total">
-     <float>1.4</float>
+     <float>4.4</float>
     </void>
    </object>
   </void>
@@ -413,10 +416,10 @@
     </void>
     <void property="prod_list">
      <void method="add">
-      <object idref="Produto0"/>
+      <object idref="Produto2"/>
      </void>
      <void method="add">
-      <object idref="Produto1"/>
+      <object idref="Produto3"/>
      </void>
     </void>
     <void property="valor_total">
@@ -433,14 +436,14 @@
      <object idref="Farmacia0"/>
     </void>
     <void property="estado">
-     <string>pronto</string>
+     <string>aberto</string>
     </void>
     <void property="id">
      <int>5</int>
     </void>
     <void property="prod_list">
      <void method="add">
-      <object idref="Produto0"/>
+      <object idref="Produto2"/>
      </void>
     </void>
     <void property="valor_total">

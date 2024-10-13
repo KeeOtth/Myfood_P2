@@ -218,7 +218,7 @@
                <string>123senha</string>
               </void>
               <void property="status">
-               <string>disponivel</string>
+               <string>entregando</string>
               </void>
               <void property="veiculo">
                <string>carro</string>
@@ -304,7 +304,7 @@
        <string>123senha</string>
       </void>
       <void property="status">
-       <string>entregando</string>
+       <string>disponivel</string>
       </void>
       <void property="veiculo">
        <string>moto</string>
@@ -339,7 +339,7 @@
        <object idref="Farmacia0"/>
       </void>
       <void property="estado">
-       <string>entregando</string>
+       <string>entregue</string>
       </void>
       <void property="id">
        <int>4</int>
@@ -379,10 +379,50 @@
        <object idref="Restaurante0"/>
       </void>
       <void property="estado">
-       <string>pronto</string>
+       <string>entregando</string>
       </void>
       <void property="id">
        <int>1</int>
+      </void>
+      <void property="prod_list">
+       <void method="add">
+        <object idref="Produto2"/>
+       </void>
+       <void method="add">
+        <object idref="Produto3"/>
+       </void>
+      </void>
+      <void property="valor_total">
+       <float>4.4</float>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="br.ufal.ic.p2.myfood.models.Entrega">
+    <void property="destino">
+     <string>Rua Exemplo N 123</string>
+    </void>
+    <void property="entregador">
+     <object idref="Entregador0"/>
+    </void>
+    <void property="id">
+     <int>3</int>
+    </void>
+    <void property="pedido">
+     <object class="br.ufal.ic.p2.myfood.models.Pedido" id="Pedido2">
+      <void property="cliente">
+       <object idref="Usuario0"/>
+      </void>
+      <void property="empresa">
+       <object idref="Restaurante0"/>
+      </void>
+      <void property="estado">
+       <string>pronto</string>
+      </void>
+      <void property="id">
+       <int>3</int>
       </void>
       <void property="prod_list">
        <void method="add">

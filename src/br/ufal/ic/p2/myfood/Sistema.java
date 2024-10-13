@@ -934,12 +934,12 @@ public class Sistema {
      */
     public int obterPedido(int idEntregador) throws UnregisteredException, WrongTypeUserException {
         if (!persistenciaUsuario.buscar(idEntregador).getClass().getSimpleName().equals("Entregador")) {
-            throw new WrongTypeUserException("Usuario nao e um entregador.");
+            throw new WrongTypeUserException("Usuario nao e um entregador");
         }
 
         Entregador entregador = (Entregador) persistenciaUsuario.buscar(idEntregador);
         if (entregador.getComp_list().isEmpty()) {
-            throw new UnregisteredException("Entregador nao esta em nenhuma empresa.");
+            throw new UnregisteredException("Entregador nao estar em nenhuma empresa.");
         }
 
         List<Pedido> listFarmacia = persistenciaPedido.listar()
@@ -979,6 +979,12 @@ public class Sistema {
      * @throws UnregisteredException  Retorna erro caso o pedido não esteja pronto ou o entregador não esteja disponível
      */
     public int criarEntrega(int idPedido, int idEntregador, String destino) throws WrongTypeUserException, UnregisteredException {
+        Pedido pedido = persistenciaPedido.buscar(idPedido);
+        if (!pedido.getEstado().equals("pronto")) {
+            throw new UnregisteredException("Pedido nao esta pronto para entrega");
+        }
+
+
         if (!persistenciaUsuario.buscar(idEntregador).getClass().getSimpleName().equals("Entregador")) {
             throw new WrongTypeUserException("Nao e um entregador valido");
         }
@@ -988,12 +994,6 @@ public class Sistema {
         if (entregador.getStatus().equals("entregando")) {
             throw new UnregisteredException("Entregador ainda em entrega");
         }
-
-        Pedido pedido = persistenciaPedido.buscar(idPedido);
-        if (!pedido.getEstado().equals("pronto")) {
-            throw new UnregisteredException("Pedido nao esta pronto para entrega");
-        }
-
 
         Entrega entrega = new Entrega(pedido, entregador, destino);
         persistenciaEntrega.salvar(entrega);
