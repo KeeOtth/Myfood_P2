@@ -190,6 +190,14 @@ public class Sistema {
         }
 
         for (Usuario user : persistenciaUsuario.listar()) {
+            if (user.getClass().getSimpleName().equals("Entregador")){
+                if (((Entregador) user).getPlaca().equals(placa)) {
+                    throw new UserCreationException("Placa invalido");
+                }
+            }
+        }
+
+        for (Usuario user : persistenciaUsuario.listar()) {
             if (user.getEmail().equals(email)) {
                 throw new UserCreationException("Conta com ese email ja existe");
             }
