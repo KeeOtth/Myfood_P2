@@ -1,4 +1,5 @@
 # Repositório para versionamento do projeto de P2 (Programação Orientada a Objetos) Myfood.
+# Para alterações referentes a milestone 2 do procure por **Milestone 2**.
 
 # Relatório
 Alunos:
@@ -20,6 +21,8 @@ Alunos:
 
 ### 1.2 _Models_
   São as principais classes do projeto, elas estruturam usuários, empresas, produtos e pedidos, além de outras classes que compõem estas, inicialmente foi criada baseando-se na descrição de cada classe necessária para cumprimento de cada _User Story_ presente no projeto, más podem ser alteradas para a parte 2 do projeto.
+  
+  **Milestone 2:** Foram adicionadas novas classes para a milestone 2, são estas: Farmácia, Mercado, Entregador e Entrega.
 
 ### 1.3 _Persistence_
   São as classes responsáveis por administrar a persistência de dados para todas as demais classes do sistema, elas possuem métodos importantes para criação, manutenção e remoção de dados no formato de persistência escolhido, nesse caso, Xml.
@@ -31,18 +34,27 @@ Alunos:
 ### 1 USUÁRIOS
   Usuários podem ser **Clientes** ou **Donos**, são a base de quem estará usando o sistema, os usuários do tipo **Dono** podem criar _Empresas_ e registrar _Produtos_ a serem vendidos nessas empresas, já o usuário do tipo **Cliente** pode fazer um _Pedido_ para uma _Empresa_ solicitando um _Produto_.
   A princípio optamos por tornar **Usuário** uma classe abstrata da qual herdariam **Cliente** e **Dono**, depois mudamos de ideia quanto a isso devido há não haver uma distinção explícita de **Cliente** para a classe base **Usuário**.
+  
+  **Milestone 2:** Agora usuários também podem ser do tipo **Entregador** que possuem, além dos dados base, informações como "veículo", "endereço" e "placa" se referindo à placa do veículo, usuários do tipo **Entregador** podem trabalhar para várias empresas simultâneamente e coletam pedidos para realizar **Entregas**, no entanto eles só podem realizar uma entrega por vez, dependendo do estado do pedido requerido.
 
 ### 1.1 EMPRESAS E PRODUTOS
   Empresas são classes relacionadas à usuários do tipo **Dono**, apenas donos podem criar uma empresa e cadastrar produtos, além disso os pedidos feitos por **Clientes** são direcionados a essas empresas.
   Produtos são oferecidos por donos em suas empresas e podem ser solicitados por clientes.
   Atualmente apenas empresas do tipo _restaurante_ podem ser criadas, restaurantes herdam _empresa_ como sua classe base.
 
+  **Milestone 2:** Agora além de _restaurantes_, _farmácias_ e _mercados_ também podem ser criados como novos tipos de empresa, oferecendo produtos distintos e sendo capazes de originar pedidos elegíveis para entrega através do sistema de entregas e dos entregadores.
+
 ### 1.2 PEDIDOS
   Pedidos podem ser feitos por usuários do tipo **Cliente**, eles conterão informação de quem é o cliente que o solicitou, para qual _empresa_ e qual _produto_ foi solicitado, além de possuir um estado indicando se o pedido está aberto ou fechado (preparando).
+
+  **Milestone 2:** Agora pedidos poderão fazer parte de _entregas_ que serão levadas pelo usuário do tipo _entregador_ até o cliente que solicitou os produtos contidos no pedido.
 
 ### 1.3 MÉTODOS DE PERSISTÊNCIA
   Foram criados métodos de persistência para cada uma das classes principais descritas acima, esses métodos são **PersistenciaUsuario**, **PersistenciaEmpresa**, **PersistenciaProduto** e **PersistenciaPedido**, todas implementam a interface **_Persistencia_**, criada para garantir que tais métodos possuam o mínimo necessário para gerenciamento das estruturas de persistência, isso inclui métodos como _salvar_, _iniciar_, _remover_, _buscar_, _listar_, além de outros métodos que usarão a classe **_SerializacaoXML_** como controle para serializar os dados para xml e também desserializá-los para abastecimento das estruturas de persistência.
   Esses métodos geram os arquivos onde ficarão armazenados os dados e, após a limpeza das estruturas da memória da máquina, eles serão responsáveis por recuperar esses dados, interpretá-los, e alimentar as estruturas novamente com a informação a ser usada pelo sistema.
+
+### 1.4 ENTREGAS (Milestone 2)
+  Foi criado um método para entregas que interage com todas as classes anteriormente citadas, a classe entrega possui métodos para alterar o estado dos pedidos, usuários do tipo **Entregador** podem coletar _entregas_ e levá-las aos **Clientes** que criaram os pedidos.
 
 ## PADRÕES DE PROJETO
 
@@ -51,6 +63,12 @@ Alunos:
 - Permite a interação com o sistema de forma unificada.
 - Atende à oportunidade da necessidade de interação com o sistema em um nível mais alto.
 - A Facade recebe os comandos do EasyAccept e chama os métodos no sistema.
+
+#### Singleton (Milestone 2)
+- É um padrão de projeto criacional que permite a você garantir que uma classe tenha apenas uma instância, enquanto provê um ponto de acesso global para essa instância.
+- Permite garantir que uma classe possua apenas uma instância, é útil para controle de bases de dados e fornece um ponto de acesso global àquela instância.
+- Atende a oportunidade de gerenciar nossas classes de persistência globalmente sem a necessidade de múltiplas instâncias de cada uma dessas classes.
+- Dentro do sistema, existe uma instância de cada classe de persistência que nos permite controlar de qualquer lugar de **Sistema** como gerenciar a permanência dos objetos.
 
 ## DISCUSSÃO
   Este tópico tem como objetivo esclarecer algumas dúvidas nossas e possívelmente do leitor quanto a escolhas no projeto para essa primeira parte
